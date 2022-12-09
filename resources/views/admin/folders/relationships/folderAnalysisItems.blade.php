@@ -2,15 +2,17 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.analysis-items.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.analysisItem.title_singular') }}
+                Ajouter un nouveau document
             </a>
         </div>
     </div>
 @endcan
 
+<div class="row">
+
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.analysisItem.title_singular') }} {{ trans('global.list') }}
+        Liste des documents
     </div>
 
     <div class="card-body">
@@ -25,26 +27,21 @@
                             {{ trans('cruds.analysisItem.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.analysisItem.fields.analysis_results') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.analysisItem.fields.last_analysis_date') }}
                         </th>
                         <th>
-                            {{ trans('cruds.analysisItem.fields.comments') }}
+                            {{ trans('cruds.analysisItem.fields.submitter_fullname') }}
                         </th>
                         <th>
                             {{ trans('cruds.analysisItem.fields.submitter_email') }}
                         </th>
                         <th>
-                            {{ trans('cruds.analysisItem.fields.folder') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.analysisItem.fields.document') }}
                         </th>
                         <th>
-                            {{ trans('cruds.analysisItem.fields.submitter_fullname') }}
+                            Resultat d'analyse
                         </th>
+                        
                         <th>
                             &nbsp;
                         </th>
@@ -60,25 +57,21 @@
                                 {{ $analysisItem->id ?? '' }}
                             </td>
                             <td>
-                                {{ $analysisItem->analysis_results ?? '' }}
-                            </td>
-                            <td>
                                 {{ $analysisItem->last_analysis_date ?? '' }}
                             </td>
                             <td>
-                                {{ $analysisItem->comments ?? '' }}
+                                {{ $analysisItem->submitter_fullname ?? '' }}
                             </td>
                             <td>
                                 {{ $analysisItem->submitter_email ?? '' }}
                             </td>
                             <td>
-                                {{ $analysisItem->folder->name ?? '' }}
-                            </td>
-                            <td>
                                 {{ $analysisItem->document->title ?? '' }}
                             </td>
                             <td>
-                                {{ $analysisItem->submitter_fullname ?? '' }}
+                                Progression: 77%
+                                <br>
+                                Score de similarité: 18%
                             </td>
                             <td>
                                 @can('analysis_item_show')
@@ -111,6 +104,7 @@
     </div>
 </div>
 
+</div>
 @section('scripts')
 @parent
 <script>

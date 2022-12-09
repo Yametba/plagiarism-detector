@@ -2,153 +2,45 @@
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.folders.create') }}">
-                {{ trans('global.add') }} {{ trans('cruds.folder.title_singular') }}
+                Nouveau
             </a>
         </div>
     </div>
 @endcan
 
-<div class="card">
-    <div class="card-header">
-        {{ trans('cruds.folder.title_singular') }} {{ trans('global.list') }}
-    </div>
-
-    <div class="card-body">
-
+<div class="col-12">
+    <div class="row">
         @foreach($folders as $key => $folder)
-
-            <div class="row">
-                <div class="col-6 workspace-folder" style="margin: 5px; background-color:grey;">
+                {{--<div class="col-3 workspace-folder" style="margin: 5px; background-color:rgb(207, 207, 207); height:50px">
                     {{$folder->name}}
+                </div>--}}
+                <div class="col-4">
+                <a href="{{route('admin.folders.show', $folder)}}">
+
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row no-gutters">
+                            <div class="col-md-2" style="margin-left: 5px">
+                            @if($folder->cover)
+                                <a href="{{ $folder->cover->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $folder->cover->getUrl('thumb') }}" width="60">
+                                </a>
+                            @else
+                                <img src="{{asset('img/folder1.png')}}" alt="..." width="60">
+                            @endif
+                            </div>
+                            <div class="col-md-9">
+                            <div class="card-body">
+                                <h5 class="card-title text-truncate font-weight-bold" style="font-size: 12px">{{$folder->name}}</h5>
+                                {{--<p class="card-text">{{$folder->description}}</p>--}}
+                                {{--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                </a>
                 </div>
-            </div>
 
         @endforeach
-
-        {{--<div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-workspaceFolders">
-                <thead>
-                    <tr>
-                        <th width="10">
-
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.description') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.cover') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.workspace') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.plagiarism_threshold_allowed') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.automatic_analysis') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.allowed_public_access') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.allowed_users') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.comments') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.submitter_email') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.submitter_fullname') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($folders as $key => $folder)
-                        <tr data-entry-id="{{ $folder->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $folder->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->description ?? '' }}
-                            </td>
-                            <td>
-                                @if($folder->cover)
-                                    <a href="{{ $folder->cover->getUrl() }}" target="_blank" style="display: inline-block">
-                                        <img src="{{ $folder->cover->getUrl('thumb') }}">
-                                    </a>
-                                @endif
-                            </td>
-                            <td>
-                                {{ $folder->workspace->workspace_name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->plagiarism_threshold_allowed ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $folder->automatic_analysis ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $folder->automatic_analysis ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $folder->allowed_public_access ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $folder->allowed_public_access ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                {{ $folder->allowed_users ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->comments ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->submitter_email ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->submitter_fullname ?? '' }}
-                            </td>
-                            <td>
-                                @can('folder_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.folders.show', $folder->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('folder_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.folders.edit', $folder->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('folder_delete')
-                                    <form action="{{ route('admin.folders.destroy', $folder->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>--}}
     </div>
 </div>
 
