@@ -88,11 +88,11 @@
                                     </a>
                                 @endcan
 
-                                @can('analysis_item_edit')
+                                {{--@can('analysis_item_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.analysis-items.edit', $analysisItem->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                @endcan
+                                @endcan--}}
 
                                 @can('analysis_item_delete')
                                     <form action="{{ route('admin.analysis-items.destroy', $analysisItem->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
@@ -101,7 +101,6 @@
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                     </form>
                                 @endcan
-
                             </td>
 
                         </tr>

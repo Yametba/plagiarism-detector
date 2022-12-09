@@ -12,7 +12,7 @@
 
 <div class="card">
     <div class="card-header">
-        Liste des documents
+        Liste des documents <span style="color: blue; font-weight: bold;"> ({{ $analysisItems->count() }} documents) </span>
     </div>
 
     <div class="card-body">
@@ -57,7 +57,7 @@
                                 {{ $analysisItem->id ?? '' }}
                             </td>
                             <td>
-                                {{ $analysisItem->last_analysis_date ?? '' }}
+                                {{ $analysisItem->last_analysis_date ?? 'Pas encore analysé' }}
                             </td>
                             <td>
                                 {{ $analysisItem->submitter_fullname ?? '' }}
@@ -69,9 +69,18 @@
                                 {{ $analysisItem->document->title ?? '' }}
                             </td>
                             <td>
-                                Progression: 77%
-                                <br>
-                                Score de similarité: 18%
+                                @empty($analysisItem->analysis_results)
+                                    @can('analysis_item_show')
+                                        <a class="btn btn-xs btn-success" href="#">
+                                            <i class="fa-fw fas fa-play"></i>
+                                            Analyser
+                                        </a>
+                                    @endcan
+                                @else
+                                    Progression: 77%
+                                    <br>
+                                    Score de similarité: 18%
+                                @endif
                             </td>
                             <td>
                                 @can('analysis_item_show')
@@ -80,11 +89,11 @@
                                     </a>
                                 @endcan
 
-                                @can('analysis_item_edit')
+                               {{-- @can('analysis_item_edit')
                                     <a class="btn btn-xs btn-info" href="{{ route('admin.analysis-items.edit', $analysisItem->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
-                                @endcan
+                                @endcan--}}
 
                                 @can('analysis_item_delete')
                                     <form action="{{ route('admin.analysis-items.destroy', $analysisItem->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
