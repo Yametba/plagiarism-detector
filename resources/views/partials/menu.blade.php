@@ -18,9 +18,7 @@
         @can('workspace_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.showMyWorkspace") }}" class="c-sidebar-nav-link {{ request()->is("admin/workspaces") || request()->is("admin/workspaces/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
-
-                    </i>
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon"></i>
                     {{-- trans('cruds.workspace.title') --}}
                     Mon espace de travail
                 </a>

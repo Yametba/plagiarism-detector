@@ -1,7 +1,7 @@
 @can('analysis_item_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route('admin.analysis-items.create') }}">
+            <a class="btn btn-success" href="{{ route('admin.add-new-analysis-item', $folder->id) }}">
                 Ajouter un nouveau document
             </a>
         </div>

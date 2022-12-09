@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyAnalysisItemRequest;
 use App\Http\Requests\StoreAnalysisItemRequest;
 use App\Http\Requests\UpdateAnalysisItemRequest;
@@ -11,10 +12,13 @@ use App\Models\Document;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 
 class AnalysisItemController extends Controller
 {
+    use MediaUploadingTrait;
+
     public function index()
     {
         abort_if(Gate::denies('analysis_item_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -35,11 +39,43 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.create', compact('documents', 'folders'));
     }
 
+
+    public function addNew($folderId)
+    {
+        $folder = Folder::find($folderId);
+        abort_if(Gate::denies('analysis_item_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $authUser = authUser();
+        return view('admin.analysisItems.create', compact('folder', 'authUser'));
+    }
+
     public function store(StoreAnalysisItemRequest $request)
     {
-        $analysisItem = AnalysisItem::create($request->all());
+        
+        //dd($request->all());
 
-        return redirect()->route('admin.analysis-items.index');
+        $folder = Folder::find($request->folder_id);
+
+        $document = Document::create([
+            'title'                 => $request->submitter_email,
+            'from_workspace_id'     => $folder->workspace->id,
+        ]);
+
+        $analysisItem = AnalysisItem::create([
+            'document_id'           => $document->id,
+            'submitter_email'       => $request->submitter_email,
+            'folder_id'             => $folder->id,
+            'submitter_fullname'    => $request->submitter_fullname,
+        ]);
+
+        if ($request->input('file', false)) {
+            $document->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $document->id]);
+        }
+
+        return redirect()->route('admin.folders.show', $folder);
     }
 
     public function edit(AnalysisItem $analysisItem)

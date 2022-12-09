@@ -3,6 +3,7 @@
 
 <div class="card">
     <h3 style="margin-left:25px; margin-bottom: 10px; margin-top:10px"> 
+        <i class="fa-fw fas fa-folder"></i> 
         Dossier: {{$folder->name}} 
     </h3>
 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalysisItemController;
 use App\Http\Controllers\Admin\WorkspaceController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -78,6 +79,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Analysis Item
     Route::delete('analysis-items/destroy', 'AnalysisItemController@massDestroy')->name('analysis-items.massDestroy');
     Route::resource('analysis-items', 'AnalysisItemController');
+    Route::get('add-new-analysis-item/{folder_id}', [AnalysisItemController::class, 'addNew'])->name('add-new-analysis-item');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('team-members', 'TeamMembersController@index')->name('team-members.index');

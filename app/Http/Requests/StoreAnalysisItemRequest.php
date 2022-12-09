@@ -17,17 +17,17 @@ class StoreAnalysisItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'last_analysis_date' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'folder_id' => [
+            'title' => [
+                'string',
                 'required',
-                'integer',
+            ],
+            'submitter_email' => [
+                'email',
+                'required',
             ],
             'submitter_fullname' => [
                 'string',
-                'nullable',
+                'required',
             ],
         ];
     }
