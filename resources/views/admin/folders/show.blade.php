@@ -99,22 +99,6 @@
                             {{ $folder->comments }}
                         </td>
                     </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.folder.fields.submitter_email') }}
-                        </th>
-                        <td>
-                            {{ $folder->submitter_email }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.folder.fields.submitter_fullname') }}
-                        </th>
-                        <td>
-                            {{ $folder->submitter_fullname }}
-                        </td>
-                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

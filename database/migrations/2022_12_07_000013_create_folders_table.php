@@ -17,8 +17,6 @@ class CreateFoldersTable extends Migration
             $table->boolean('allowed_public_access')->default(0)->nullable();
             $table->longText('allowed_users')->nullable();
             $table->longText('comments')->nullable();
-            $table->string('submitter_email');
-            $table->string('submitter_fullname')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

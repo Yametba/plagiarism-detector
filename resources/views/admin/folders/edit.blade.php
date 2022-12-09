@@ -112,26 +112,6 @@
                 <span class="help-block">{{ trans('cruds.folder.fields.comments_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="submitter_email">{{ trans('cruds.folder.fields.submitter_email') }}</label>
-                <input class="form-control {{ $errors->has('submitter_email') ? 'is-invalid' : '' }}" type="email" name="submitter_email" id="submitter_email" value="{{ old('submitter_email', $folder->submitter_email) }}" required>
-                @if($errors->has('submitter_email'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('submitter_email') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.folder.fields.submitter_email_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="submitter_fullname">{{ trans('cruds.folder.fields.submitter_fullname') }}</label>
-                <input class="form-control {{ $errors->has('submitter_fullname') ? 'is-invalid' : '' }}" type="text" name="submitter_fullname" id="submitter_fullname" value="{{ old('submitter_fullname', $folder->submitter_fullname) }}">
-                @if($errors->has('submitter_fullname'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('submitter_fullname') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.folder.fields.submitter_fullname_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

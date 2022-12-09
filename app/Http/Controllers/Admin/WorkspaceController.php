@@ -10,7 +10,7 @@ use App\Http\Requests\UpdateWorkspaceRequest;
 use App\Models\Team;
 use App\Models\User;
 use App\Models\Workspace;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,6 +88,25 @@ class WorkspaceController extends Controller
     public function show(Workspace $workspace)
     {
         abort_if(Gate::denies('workspace_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $workspace->load('owner', 'team', 'workspaceFolders', 'fromWorkspaceDocuments');
+
+        return view('admin.workspaces.show', compact('workspace'));
+    }
+
+    public function showMyWorkspace(){
+        abort_if(Gate::denies('workspace_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $authUser = authUser();
+        $workspace = Workspace::where('owner_id', $authUser->id)->first();
+
+        if($workspace == null){
+            $workspace = Workspace::create([
+                'owner_id'          => $authUser->id,
+                'workspace_name'    => $authUser->name ?? 'Espace de travail',
+                'description'       => '',
+            ]);
+        }
 
         $workspace->load('owner', 'team', 'workspaceFolders', 'fromWorkspaceDocuments');
 

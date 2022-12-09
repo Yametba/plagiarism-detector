@@ -7,7 +7,7 @@ use App\Http\Requests\StoreAnalysisItemRequest;
 use App\Http\Requests\UpdateAnalysisItemRequest;
 use App\Http\Resources\Admin\AnalysisItemResource;
 use App\Models\AnalysisItem;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

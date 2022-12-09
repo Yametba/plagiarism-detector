@@ -53,12 +53,6 @@
                             {{ trans('cruds.folder.fields.comments') }}
                         </th>
                         <th>
-                            {{ trans('cruds.folder.fields.submitter_email') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.folder.fields.submitter_fullname') }}
-                        </th>
-                        <th>
                             &nbsp;
                         </th>
                     </tr>
@@ -97,12 +91,7 @@
                         <td>
                             <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                         </td>
-                        <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                        </td>
-                        <td>
-                            <input class="search" type="text" placeholder="{{ trans('global.search') }}">
-                        </td>
+                    
                         <td>
                         </td>
                     </tr>
@@ -149,12 +138,7 @@
                             <td>
                                 {{ $folder->comments ?? '' }}
                             </td>
-                            <td>
-                                {{ $folder->submitter_email ?? '' }}
-                            </td>
-                            <td>
-                                {{ $folder->submitter_fullname ?? '' }}
-                            </td>
+                        
                             <td>
                                 @can('folder_show')
                                     <a class="btn btn-xs btn-primary" href="{{ route('admin.folders.show', $folder->id) }}">

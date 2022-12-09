@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Folder;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
 
@@ -30,13 +30,6 @@ class UpdateFolderRequest extends FormRequest
                 'integer',
                 'min:-2147483648',
                 'max:2147483647',
-            ],
-            'submitter_email' => [
-                'required',
-            ],
-            'submitter_fullname' => [
-                'string',
-                'nullable',
             ],
         ];
     }

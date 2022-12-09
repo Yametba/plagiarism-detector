@@ -42,8 +42,6 @@ class Folder extends Model implements HasMedia
         'allowed_public_access',
         'allowed_users',
         'comments',
-        'submitter_email',
-        'submitter_fullname',
         'updated_at',
         'deleted_at',
         'team_id',

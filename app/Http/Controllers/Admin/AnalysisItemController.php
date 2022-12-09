@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateAnalysisItemRequest;
 use App\Models\AnalysisItem;
 use App\Models\Document;
 use App\Models\Folder;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

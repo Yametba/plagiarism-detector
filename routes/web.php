@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\WorkspaceController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::redirect('/', '/login');
 Route::get('/home', function () {
     if (session('status')) {
@@ -63,6 +67,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('workspaces/media', 'WorkspaceController@storeMedia')->name('workspaces.storeMedia');
     Route::post('workspaces/ckmedia', 'WorkspaceController@storeCKEditorImages')->name('workspaces.storeCKEditorImages');
     Route::resource('workspaces', 'WorkspaceController');
+    Route::get('/my-workspace', [WorkspaceController::class, 'showMyWorkspace'])->name('showMyWorkspace');
 
     // Folder
     Route::delete('folders/destroy', 'FolderController@massDestroy')->name('folders.massDestroy');

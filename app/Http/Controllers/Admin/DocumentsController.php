@@ -10,7 +10,7 @@ use App\Http\Requests\UpdateDocumentRequest;
 use App\Models\Document;
 use App\Models\Team;
 use App\Models\Workspace;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;

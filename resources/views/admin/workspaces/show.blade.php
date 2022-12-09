@@ -72,27 +72,10 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.relatedData') }}
+        Dossiers
     </div>
-    <ul class="nav nav-tabs" role="tablist" id="relationship-tabs">
-        <li class="nav-item">
-            <a class="nav-link" href="#workspace_folders" role="tab" data-toggle="tab">
-                {{ trans('cruds.folder.title') }}
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#from_workspace_documents" role="tab" data-toggle="tab">
-                {{ trans('cruds.document.title') }}
-            </a>
-        </li>
-    </ul>
-    <div class="tab-content">
-        <div class="tab-pane" role="tabpanel" id="workspace_folders">
-            @includeIf('admin.workspaces.relationships.workspaceFolders', ['folders' => $workspace->workspaceFolders])
-        </div>
-        <div class="tab-pane" role="tabpanel" id="from_workspace_documents">
-            @includeIf('admin.workspaces.relationships.fromWorkspaceDocuments', ['documents' => $workspace->fromWorkspaceDocuments])
-        </div>
+    <div class="tab-pane" role="tabpanel" id="workspace_folders">
+        @includeIf('admin.workspaces.relationships.workspaceFolders', ['folders' => $workspace->workspaceFolders])
     </div>
 </div>
 

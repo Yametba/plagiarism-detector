@@ -14,7 +14,18 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
+
+        @foreach($folders as $key => $folder)
+
+            <div class="row">
+                <div class="col-6 workspace-folder" style="margin: 5px; background-color:grey;">
+                    {{$folder->name}}
+                </div>
+            </div>
+
+        @endforeach
+
+        {{--<div class="table-responsive">
             <table class=" table table-bordered table-striped table-hover datatable datatable-workspaceFolders">
                 <thead>
                     <tr>
@@ -137,7 +148,7 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
+        </div>--}}
     </div>
 </div>
 

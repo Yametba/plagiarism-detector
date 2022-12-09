@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyFaqCategoryRequest;
 use App\Http\Requests\StoreFaqCategoryRequest;
 use App\Http\Requests\UpdateFaqCategoryRequest;
 use App\Models\FaqCategory;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

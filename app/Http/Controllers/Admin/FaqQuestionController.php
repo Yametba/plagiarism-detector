@@ -8,7 +8,7 @@ use App\Http\Requests\StoreFaqQuestionRequest;
 use App\Http\Requests\UpdateFaqQuestionRequest;
 use App\Models\FaqCategory;
 use App\Models\FaqQuestion;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
