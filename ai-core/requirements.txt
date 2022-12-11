@@ -1,0 +1,12 @@
+matplotlib==3.5.1
+numpy==1.21.5
+pandas==1.3.5
+pyforest==1.0.2
+scipy==1.5.2
+sklearn
+pandas 
+dash
+httpx==0.20 
+streamlit 
+plotly
+Flask
