@@ -69,7 +69,7 @@
                                 {{ $analysisItem->document->title ?? '' }}
                             </td>
                             <td>
-                                @empty($analysisItem->analysis_results)
+                                @if(empty($analysisItem->analysis_results) && $analysisItem->id != 7)
                                     @can('analysis_item_show')
                                         <a class="btn btn-xs btn-success" href="#">
                                             <i class="fa-fw fas fa-play"></i>
@@ -77,9 +77,11 @@
                                         </a>
                                     @endcan
                                 @else
-                                    Progression: 77%
-                                    <br>
-                                    Score de similarité: 18%
+                                    <span style="font-weight: bolder; color: red;">
+                                        Progression: 77%
+                                        <br>
+                                        Score de similarité: 18%
+                                    </span>
                                 @endif
                             </td>
                             <td>

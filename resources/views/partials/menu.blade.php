@@ -35,7 +35,7 @@
                 </a>
             </li>
         @endcan
-        @can('folder_access')
+        {{--@can('folder_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.folders.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/folders") || request()->is("admin/folders/*") ? "c-active" : "" }}">
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
@@ -86,7 +86,7 @@
                     @endcan
                 </ul>
             </li>
-        @endcan
+        @endcan--}}
         @can('user_alert_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.user-alerts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/user-alerts") || request()->is("admin/user-alerts/*") ? "c-active" : "" }}">
