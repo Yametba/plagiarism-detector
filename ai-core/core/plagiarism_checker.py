@@ -1,3 +1,7 @@
+
+import sys
+sys.path.insert(0, "/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core")
+
 from sentence_transformers import SentenceTransformer, util
 sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
 
@@ -13,8 +17,8 @@ import time
 import asyncio
 import sys
 import argparse
-import core.translator as translator
-import core.data_preprocessor as data_preprocessor
+import translator as translator
+import data_preprocessor as data_preprocessor
 
 APP_BASE_PATH = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector'
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'

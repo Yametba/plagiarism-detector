@@ -16,6 +16,8 @@ def check_doc_plagiarism_score():
         result = plagiarism_checker.main(new_doc_path, original_text, rewritten_text)
         
         return "check_doc_plagiarism_score result : " + str(result)
+    if request.method == 'GET':
+        return "<p>Hello, World!</p>" 
 
 @app.route("/check-plagiarism-score-between-2-text")
 def check_plagiarism_score_between_2_text():

@@ -81,10 +81,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('analysis-items', 'AnalysisItemController');
     Route::get('add-new-analysis-item/{folder_id}', [AnalysisItemController::class, 'addNew'])->name('add-new-analysis-item');
 
+    Route::get('run-item-analyse/{itemId}', [AnalysisItemController::class, 'analyseItem'])->name('run-item-analyse');
+
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('team-members', 'TeamMembersController@index')->name('team-members.index');
     Route::post('team-members', 'TeamMembersController@invite')->name('team-members.invite');
 });
+
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function () {
     // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {

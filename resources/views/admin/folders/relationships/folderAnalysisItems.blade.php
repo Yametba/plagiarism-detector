@@ -71,7 +71,7 @@
                             <td>
                                 @if(empty($analysisItem->analysis_results) && $analysisItem->id != 7)
                                     @can('analysis_item_show')
-                                        <a class="btn btn-xs btn-success" href="#">
+                                        <a class="btn btn-xs btn-success" href="{{route('admin.run-item-analyse', $analysisItem->id)}}">
                                             <i class="fa-fw fas fa-play"></i>
                                             Analyser
                                         </a>
