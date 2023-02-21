@@ -7,11 +7,13 @@ use App\Http\Controllers\Traits\MediaUploadingTrait;
 use App\Http\Requests\MassDestroyAnalysisItemRequest;
 use App\Http\Requests\StoreAnalysisItemRequest;
 use App\Http\Requests\UpdateAnalysisItemRequest;
+use App\Jobs\ProcessPlagiarismDetection;
 use App\Models\AnalysisItem;
 use App\Models\Document;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
@@ -50,7 +52,7 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.create', compact('folder', 'authUser'));
     }
 
-    public function analyseItem($analysisItemId){
+    public function runPlagiarismCheckerScript($analysisItemId){
         $analysisItem = AnalysisItem::find($analysisItemId);
         
         $script = 'python core/plagiarism_checker.py --original_text="I stand here today humbled by the task before us, grateful for the trust you have bestowed, mindful of the sacrifices borne by our ancestors. I thank President Bush for his service to our nation, as well as the generosity and cooperation he has shown throughout this transition. The new movie is awesome. The cat plays in the garden. The new movie is so great." --rewritten_text="I am humbled by the task at hand, appreciative of the trust you have placed in me, and conscious of the suffering endured by our forefathers as I stand here today. I am grateful to President Bush for his service to our country, as well as for his kindness and cooperation during this transition. The new movie is so great."';
@@ -70,9 +72,24 @@ class AnalysisItemController extends Controller
 
         $data = $process->getOutput();
 
-        return $data;
+        #return $data;
 
+        return back()->with('success', 'Opération de d\'analyse lancée.');
         //dd($analysisItem->file);
+    }
+
+    public function analyseItem($analysisItemId){
+        $analysisItem = AnalysisItem::find($analysisItemId);
+        
+        #$this->runPlagiarismCheckerScript($analysisItem);
+
+        try {
+            ProcessPlagiarismDetection::dispatch($analysisItem);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        return back()->with('success', 'Opération de d\'analyse lancée.');
     }   
 
     public function store(StoreAnalysisItemRequest $request)

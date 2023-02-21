@@ -19,6 +19,7 @@ import sys
 import argparse
 import translator as translator
 import data_preprocessor as data_preprocessor
+import mailing as mailing
 
 APP_BASE_PATH = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector'
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
@@ -183,6 +184,8 @@ def main(newFilePath, originalText, rewrittenText):
             
     t2 = time.perf_counter()
     print(f'Temps d exécution du prgramme : {t2-t1:0.6f} secondes')
+    
+    mailing.send_result_to_user_by_mail(result)
     return result
 
 if __name__ == "__main__":

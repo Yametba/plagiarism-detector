@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AnalysisItemResource;
 use App\Models\AnalysisItem;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Symfony\Component\HttpFoundation\Response;
 
 class AnalysisItemApiController extends Controller
@@ -39,6 +40,20 @@ class AnalysisItemApiController extends Controller
     public function update(UpdateAnalysisItemRequest $request, AnalysisItem $analysisItem)
     {
         $analysisItem->update($request->all());
+
+        return (new AnalysisItemResource($analysisItem))
+            ->response()
+            ->setStatusCode(Response::HTTP_ACCEPTED);
+    }
+
+    public function updateAnalysisResult(Request $request, $analysisItemId)
+    {
+        $analysisItem = AnalysisItem::find($analysisItemId);
+
+        $analysisItem->analysis_results = $request->analysis_results;
+        $analysisItem->last_analysis_date = Date::now();
+
+        $analysisItem->save();
 
         return (new AnalysisItemResource($analysisItem))
             ->response()
