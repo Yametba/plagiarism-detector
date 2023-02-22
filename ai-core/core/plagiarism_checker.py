@@ -12,11 +12,12 @@ import os
 
 from PyPDF2 import PdfReader
 import numpy as np
-import typing
 import time
 import asyncio
 import sys
 import argparse
+import json
+import requests
 import translator as translator
 import data_preprocessor as data_preprocessor
 import mailing as mailing
@@ -24,6 +25,7 @@ import mailing as mailing
 APP_BASE_PATH = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector'
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
 DATABASE_FOLDER_PATH = AI_CORE_BASE_PATH + '/database'
+UPDATE_ANALYSIS_RESULTS_API = 'http://localhost:8000/api/v1/update-analysis-result'
 
 new_file_path = None
 original_text = None
@@ -32,7 +34,13 @@ new_doc_sentences_plagiarism_score = []
 tasks = []
 new_doc_sentences = []
 new_doc_file_path = DATABASE_FOLDER_PATH + '/new_docs_temp_folder/new-doc.pdf'
+analysis_item_id = None
 
+def save_plagiarism_result_on_backend_database(analysis_results):
+    global analysis_item_id
+    headers = {'Content-type': 'application/json'}
+    response = requests.post(UPDATE_ANALYSIS_RESULTS_API, data=json.dumps({'analysis_results': str(analysis_results), 'analysis_item_id': analysis_item_id}), headers=headers)
+    return response
 
 def get_file_text(file_path: str):
     reader = PdfReader(str(file_path))
@@ -156,16 +164,19 @@ parser = argparse.ArgumentParser(description="Commands to check plagiarism with 
 parser.add_argument('--f', dest='new_file_path', type=str, help='Your new file path')
 parser.add_argument('--original_text', dest='original_text', type=str, help='Original text')
 parser.add_argument('--rewritten_text', dest='rewritten_text', type=str, help='Rewritten text')
+parser.add_argument('--analysis_item_id', dest='analysis_item_id', type=str, help='Analysis item identifier')
 
-def main(newFilePath, originalText, rewrittenText):
+def main(newFilePath, originalText, rewrittenText, analysisItemId):
     t1 = time.perf_counter()
     global new_doc_file_path
     global new_file_path
     global original_text
     global rewritten_text
+    global analysis_item_id
     new_file_path = newFilePath
     original_text = originalText
     rewritten_text = rewrittenText
+    analysis_item_id = analysisItemId
     
     if(new_file_path == None and original_text == None and rewritten_text == None):
         print("Veuillez ajouter le chemin vers un nouveau fichier")
@@ -181,14 +192,15 @@ def main(newFilePath, originalText, rewrittenText):
             #asyncio.run(analyze_similarity_between_sentences(sent_tokenize(original_text), sent_tokenize(rewritten_text)))
             result = get_plagiarism_rate(len(sent_tokenize(rewritten_text)), new_doc_sentences_plagiarism_score)
         print(f"Le taux de plagiat est de {result}")
-            
+
     t2 = time.perf_counter()
-    print(f'Temps d exécution du prgramme : {t2-t1:0.6f} secondes')
+    print(f'Temps d exécution du programme : {t2-t1:0.6f} secondes')
     
+    save_plagiarism_result_on_backend_database(result)
     mailing.send_result_to_user_by_mail(result)
     return result
 
 if __name__ == "__main__":
     t1 = time.perf_counter()
     args = parser.parse_args()
-    main(args.new_file_path, args.original_text, args.rewritten_text)
+    main(args.new_file_path, args.original_text, args.rewritten_text, args.analysisItemId)
