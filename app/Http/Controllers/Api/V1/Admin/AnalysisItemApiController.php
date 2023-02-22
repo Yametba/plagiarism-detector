@@ -9,6 +9,7 @@ use App\Http\Resources\Admin\AnalysisItemResource;
 use App\Models\AnalysisItem;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -46,18 +47,22 @@ class AnalysisItemApiController extends Controller
             ->setStatusCode(Response::HTTP_ACCEPTED);
     }
 
-    public function updateAnalysisResult(Request $request, $analysisItemId)
+    public function updateAnalysisResult(Request $request)
     {
-        $analysisItem = AnalysisItem::find($analysisItemId);
+        try {
+            $analysisItem = AnalysisItem::find($request->analysis_item_id);
 
-        $analysisItem->analysis_results = $request->analysis_results;
-        $analysisItem->last_analysis_date = Date::now();
+            $analysisItem->analysis_results = $request->analysis_results;
+            $analysisItem->last_analysis_date = Carbon::now()->format(config('panel.date_format') . ' ' . config('panel.time_format'));
 
-        $analysisItem->save();
+            $analysisItem->save();
 
-        return (new AnalysisItemResource($analysisItem))
-            ->response()
-            ->setStatusCode(Response::HTTP_ACCEPTED);
+            return (new AnalysisItemResource($analysisItem))
+                ->response()
+                ->setStatusCode(Response::HTTP_ACCEPTED);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     public function destroy(AnalysisItem $analysisItem)

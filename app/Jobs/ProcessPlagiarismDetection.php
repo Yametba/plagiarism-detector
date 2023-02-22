@@ -47,7 +47,9 @@ class ProcessPlagiarismDetection implements ShouldQueue
         $arg1 = '--original_text="I stand here today humbled by the task before us, grateful for the trust you have bestowed, mindful of the sacrifices borne by our ancestors. I thank President Bush for his service to our nation, as well as the generosity and cooperation he has shown throughout this transition. The new movie is awesome. The cat plays in the garden. The new movie is so great."';
         $arg2 = '--rewritten_text="I am humbled by the task at hand, appreciative of the trust you have placed in me, and conscious of the suffering endured by our forefathers as I stand here today. I am grateful to President Bush for his service to our country, as well as for his kindness and cooperation during this transition. The new movie is so great."';
 
-        $process = new Process([$python_path, $cmd_path, $arg1, $arg2]);
+        $arg3 = '--analysis_item_id=' . $item->id;
+
+        $process = new Process([$python_path, $cmd_path, $arg1, $arg2, $arg3]);
         $process->run();
         
         if (!$process->isSuccessful()) {

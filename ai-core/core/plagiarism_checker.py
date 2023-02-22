@@ -39,7 +39,14 @@ analysis_item_id = None
 def save_plagiarism_result_on_backend_database(analysis_results):
     global analysis_item_id
     headers = {'Content-type': 'application/json'}
-    response = requests.post(UPDATE_ANALYSIS_RESULTS_API, data=json.dumps({'analysis_results': str(analysis_results), 'analysis_item_id': analysis_item_id}), headers=headers)
+    response = requests.post(UPDATE_ANALYSIS_RESULTS_API, 
+                             json={
+                                 'analysis_results': str(analysis_results), 
+                                 'analysis_item_id': analysis_item_id
+                                }, 
+                             headers=headers)
+    print(response.json())
+
     return response
 
 def get_file_text(file_path: str):
@@ -197,10 +204,10 @@ def main(newFilePath, originalText, rewrittenText, analysisItemId):
     print(f'Temps d exécution du programme : {t2-t1:0.6f} secondes')
     
     save_plagiarism_result_on_backend_database(result)
-    mailing.send_result_to_user_by_mail(result)
+    #mailing.send_result_to_user_by_mail(result)
     return result
 
 if __name__ == "__main__":
     t1 = time.perf_counter()
     args = parser.parse_args()
-    main(args.new_file_path, args.original_text, args.rewritten_text, args.analysisItemId)
+    main(args.new_file_path, args.original_text, args.rewritten_text, args.analysis_item_id)
