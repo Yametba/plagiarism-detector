@@ -14,11 +14,16 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 $ source /media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/activate
 export PYTHONPATH=/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core:$PYTHONPATH
+php artisan queue:work
 
 ## Run flask server
 flask --app main run
 
+## Avant une présentation
+php artisan serve
 php artisan queue:work
+conda deactivate
+cd ai-core
 
 $ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/database new_docs_temp_folder/new-doc.pdf
 

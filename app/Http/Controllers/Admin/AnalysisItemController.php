@@ -52,32 +52,6 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.create', compact('folder', 'authUser'));
     }
 
-    public function runPlagiarismCheckerScript($analysisItemId){
-        $analysisItem = AnalysisItem::find($analysisItemId);
-        
-        $script = 'python core/plagiarism_checker.py --original_text="I stand here today humbled by the task before us, grateful for the trust you have bestowed, mindful of the sacrifices borne by our ancestors. I thank President Bush for his service to our nation, as well as the generosity and cooperation he has shown throughout this transition. The new movie is awesome. The cat plays in the garden. The new movie is so great." --rewritten_text="I am humbled by the task at hand, appreciative of the trust you have placed in me, and conscious of the suffering endured by our forefathers as I stand here today. I am grateful to President Bush for his service to our country, as well as for his kindness and cooperation during this transition. The new movie is so great."';
-
-        $python_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python';
-        $cmd_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core/plagiarism_checker.py';
-        
-        $arg1 = '--original_text="I stand here today humbled by the task before us, grateful for the trust you have bestowed, mindful of the sacrifices borne by our ancestors. I thank President Bush for his service to our nation, as well as the generosity and cooperation he has shown throughout this transition. The new movie is awesome. The cat plays in the garden. The new movie is so great."';
-        $arg2 = '--rewritten_text="I am humbled by the task at hand, appreciative of the trust you have placed in me, and conscious of the suffering endured by our forefathers as I stand here today. I am grateful to President Bush for his service to our country, as well as for his kindness and cooperation during this transition. The new movie is so great."';
-
-        $process = new Process([$python_path, $cmd_path, $arg1, $arg2]);
-        $process->run();
-        
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        $data = $process->getOutput();
-
-        #return $data;
-
-        return back()->with('success', 'Opération de d\'analyse lancée.');
-        //dd($analysisItem->file);
-    }
-
     public function analyseItem($analysisItemId){
         $analysisItem = AnalysisItem::find($analysisItemId);
         
@@ -85,6 +59,10 @@ class AnalysisItemController extends Controller
 
         try {
             ProcessPlagiarismDetection::dispatch($analysisItem);
+
+            $analysisItem->analysis_results = 'En cours';
+            $analysisItem->save();
+
         } catch (\Throwable $th) {
             throw $th;
         }

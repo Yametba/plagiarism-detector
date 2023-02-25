@@ -69,19 +69,26 @@
                                 {{ $analysisItem->document->title ?? '' }}
                             </td>
                             <td>
-                                @if(empty($analysisItem->analysis_results) && $analysisItem->id != 7)
+                                @if(empty($analysisItem->analysis_results) /* && $analysisItem->id != 7*/)
                                     @can('analysis_item_show')
                                         <a class="btn btn-xs btn-success" href="{{route('admin.run-item-analyse', $analysisItem->id)}}">
                                             <i class="fa-fw fas fa-play"></i>
                                             Analyser
                                         </a>
                                     @endcan
-                                @else
-                                    <span style="font-weight: bolder; color: red;">
-                                        Progression: 77%
-                                        <br>
-                                        Score de similarité: 18%
+                                @elseif($analysisItem->analysis_results == 'En cours')
+                                    <span style="font-weight: bolder; color: grey;">
+                                        Analyse en cours. Le résultat sera disponible bientôt.
                                     </span>
+                                @else
+                                    <span style="font-weight: bolder; color: green;">
+                                        Résultat disponible. Vérifier les détails avec le button voir.
+                                    </span>
+                                    <br>
+                                    <a class="btn btn-xs btn-success" href="{{route('admin.run-item-analyse', $analysisItem->id)}}">
+                                        <i class="fa-fw fas fa-play"></i>
+                                        Relancer
+                                    </a>
                                 @endif
                             </td>
                             <td>

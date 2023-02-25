@@ -90,4 +90,16 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Queue Timeout
+    |--------------------------------------------------------------------------
+    |
+    | This option defines the default number of seconds that a job should be
+    | allowed to run before timing out. This value should be based on the
+    | amount of time you expect a job to reasonably take to execute.
+    |
+    */
+
+    'default_timeout' => 60*60,
 ];

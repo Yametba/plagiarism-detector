@@ -41,7 +41,7 @@ def save_plagiarism_result_on_backend_database(analysis_results):
     headers = {'Content-type': 'application/json'}
     response = requests.post(UPDATE_ANALYSIS_RESULTS_API, 
                              json={
-                                 'analysis_results': str(analysis_results), 
+                                 'analysis_results': json.dumps(analysis_results), 
                                  'analysis_item_id': analysis_item_id
                                 }, 
                              headers=headers)
@@ -127,7 +127,7 @@ def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, save_list:
     #print(str(len(save_list[0])))
     #print(new_doc_nbr_pages_or_text_sentences_len)
     #print(save_list)
-    return float(len(save_list[0]) / new_doc_nbr_pages_or_text_sentences_len)
+    return [float(len(save_list[0]) / new_doc_nbr_pages_or_text_sentences_len), save_list[0]]
 
 async def check_plagiarism_between_newdoc_and_file(new_doc_sentences: list, database_file_path: str):
     global new_doc_sentences_plagiarism_score
