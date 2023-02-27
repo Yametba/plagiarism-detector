@@ -59,7 +59,7 @@ class AnalysisItemController extends Controller
 
         try {
             ProcessPlagiarismDetection::dispatch($analysisItem);
-
+            
             $analysisItem->analysis_results = 'En cours';
             $analysisItem->save();
 

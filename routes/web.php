@@ -98,6 +98,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/two-factor', 'ChangePasswordController@toggleTwoFactor')->name('password.toggleTwoFactor');
     }
 });
+
 Route::group(['namespace' => 'Auth', 'middleware' => ['auth', '2fa']], function () {
     // Two Factor Authentication
     if (file_exists(app_path('Http/Controllers/Auth/TwoFactorController.php'))) {

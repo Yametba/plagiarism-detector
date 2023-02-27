@@ -9,7 +9,7 @@
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.analysis-items.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.folders.show', $analysisItem->folder->id) }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -60,7 +60,11 @@
                             {{ trans('cruds.analysisItem.fields.folder') }}
                         </th>
                         <td>
-                            {{ $analysisItem->folder->name ?? '' }}
+                            @if($analysisItem->document->file)
+                                <a href="{{ $analysisItem->document->getFilePath() }}" target="_blank">
+                                    {{ $analysisItem->folder->name ?? '' }}
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
