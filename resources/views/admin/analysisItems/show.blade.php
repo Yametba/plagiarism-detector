@@ -28,7 +28,10 @@
                             {{ trans('cruds.analysisItem.fields.analysis_results') }}
                         </th>
                         <td>
-                            {{ $analysisItem->analysis_results }}
+                            {{-- $analysisItem->analysis_results --}}
+                            @include('admin.analysisItems._analisis_results', [
+                                'analysisItem' => $analysisItem
+                            ])
                         </td>
                     </tr>
                     <tr>

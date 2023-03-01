@@ -10,6 +10,7 @@ use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
@@ -75,21 +76,8 @@ if (! function_exists('mercant_code_generator')) {
     }
 }
 
-if (! function_exists('create_wallet_for')) {
-    function create_wallet_for(User $user, $currency_name = AppConstants::USD, BusinessAccount $businessAccount = null){
-        if ($user == null && $businessAccount == null) {
-            return false;
-        }else{
-            $wallet = new Wallet();
-            $wallet = $wallet->fill([
-                'uuid' => app_uuid_generator(),
-                'owner_id' => $user->id,
-                'business_account_id' => $businessAccount == null ? null : $businessAccount->id,
-                'currency_id' => Currency::where('short_name', $currency_name)->first()->id,
-                'balance' => 0,
-            ]);
-            $wallet->save();
-            return true;
-        }
+if (! function_exists('get_file_path_from_database')) {
+    function get_file_path_from_database(String $filename){
+        return Storage::url('database/'. basename($filename));
     }
 }

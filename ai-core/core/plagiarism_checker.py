@@ -24,7 +24,8 @@ import mailing as mailing
 
 APP_BASE_PATH = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector'
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
-DATABASE_FOLDER_PATH = AI_CORE_BASE_PATH + '/database'
+DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database'
+#DATABASE_FOLDER_PATH = AI_CORE_BASE_PATH + '/database'
 UPDATE_ANALYSIS_RESULTS_API = 'http://localhost:8000/api/v1/update-analysis-result'
 
 new_file_path = None
@@ -33,7 +34,7 @@ rewritten_text = None
 new_doc_sentences_plagiarism_score = []
 tasks = []
 new_doc_sentences = []
-new_doc_file_path = DATABASE_FOLDER_PATH + '/new_docs_temp_folder/new-doc.pdf'
+new_doc_file_path = None #DATABASE_FOLDER_PATH + '/new_docs_temp_folder/new-doc.pdf'
 analysis_item_id = None
 
 def save_plagiarism_result_on_backend_database(analysis_results):

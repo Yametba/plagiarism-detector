@@ -1,3 +1,7 @@
+## Reste à faire avant la soutenance
+Vérifier que la traduction
+
+
 Configuration d’un projet
 La plupart des projets Python fournissent un fichier requirements.txt qui, nous l’avons vu, donne la liste des dépendances nécessaires avec leur version. Lorsque vous récupérez un projet Python, les étapes initiales de configuration de ce projet sont quasi-systématiquement les mêmes :
 
