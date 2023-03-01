@@ -88,7 +88,7 @@ def sent_tokenize(sentences: str) -> list:
     return r
 
 #fonction d'analyse de la similarité qui retourne une list contenant les phrases qui ont un score de plagiat élevé
-async def analyze_similarity_between_sentences(document1_sentences: list, document2_sentences: list, threshold = 0.8) -> list:
+async def analyze_similarity_between_sentences(document1_sentences: list, document2_sentences: list, document1_name: str, document2_name: str, threshold = 0.8) -> list:
     result = []
 
     sentences = document1_sentences + document2_sentences
@@ -104,7 +104,7 @@ async def analyze_similarity_between_sentences(document1_sentences: list, docume
     while loop_stop >= threshold and k < len(paraphrases):
         score, i, j = paraphrases[k]
         if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len)) and len(sentences[i]) > sentence_min_len and len(sentences[j]) > sentence_min_len):
-            result.append([sentences[i], sentences[j], score])
+            result.append([sentences[i], sentences[j], score, document1_name, document2_name])
         k = k + 1
         loop_stop = score
     #print(result)
@@ -131,16 +131,17 @@ def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, save_list:
 
 async def check_plagiarism_between_newdoc_and_file(new_doc_sentences: list, database_file_path: str):
     global new_doc_sentences_plagiarism_score
+    global new_doc_file_path
     database_file_text = get_file_text(database_file_path)
     database_file_text_sentences = sent_tokenize(database_file_text)
-    result = await analyze_similarity_between_sentences(new_doc_sentences, database_file_text_sentences)
+    result = await analyze_similarity_between_sentences(new_doc_sentences, database_file_text_sentences, str(new_doc_file_path), str(database_file_path))
     save_sentences_and_scores(new_doc_sentences_plagiarism_score, result)
 
 async def check_plagiarism_between_text(original_text: str, rewritten_text: str):
     global new_doc_sentences_plagiarism_score
     original_text_sentences = sent_tokenize(original_text)
     rewritten_text_sentences = sent_tokenize(rewritten_text)
-    result = await analyze_similarity_between_sentences(rewritten_text_sentences, original_text_sentences)
+    result = await analyze_similarity_between_sentences(rewritten_text_sentences, original_text_sentences, 'rewritten_text', 'original_text')
     save_sentences_and_scores(new_doc_sentences_plagiarism_score, result)
 
 async def check_new_doc_plagirism_score():

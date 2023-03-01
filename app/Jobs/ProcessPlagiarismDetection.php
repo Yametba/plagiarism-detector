@@ -54,9 +54,5 @@ class ProcessPlagiarismDetection implements ShouldQueue
         }
 
         $data = $process->getOutput();
-
-        #throw $data;
-
-        #return $data;
     }
 }

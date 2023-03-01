@@ -125,7 +125,7 @@ class AnalysisItemController extends Controller
         abort_if(Gate::denies('analysis_item_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $analysisItem->load('document', 'folder', 'team');
-
+        
         return view('admin.analysisItems.show', compact('analysisItem'));
     }
 

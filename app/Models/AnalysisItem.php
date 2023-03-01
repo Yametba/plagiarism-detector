@@ -67,4 +67,16 @@ class AnalysisItem extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
+
+    public function getAnalysisResultsArray(){
+        return json_decode($this->analysis_results, true);
+    }
+
+    public function getPlagiarismScore(){
+        return $this->getAnalysisResultsArray()[0];
+    }
+
+    public function getAnalysisResultsSimilarSentencesArray(){
+        return $this->getAnalysisResultsArray()[1];
+    }
 }
