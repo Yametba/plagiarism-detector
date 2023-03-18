@@ -77,6 +77,9 @@ class AnalysisItem extends Model
     }
 
     public function getAnalysisResultsSimilarSentencesArray(){
+        if($this->getAnalysisResultsArray() == null || $this->getAnalysisResultsArray()[1] == null){
+            return [];
+        }
         return $this->getAnalysisResultsArray()[1];
     }
 }

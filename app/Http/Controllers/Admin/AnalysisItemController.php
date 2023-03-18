@@ -12,12 +12,10 @@ use App\Models\AnalysisItem;
 use App\Models\Document;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 class AnalysisItemController extends Controller
 {
@@ -52,10 +50,31 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.create', compact('folder', 'authUser'));
     }
 
+    public function runPlagiarismCheckerScript($analysisItem){
+
+        //$analysisItem = $this->analysisItem;
+
+        $python_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python';
+        $cmd_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core/plagiarism_checker.py';
+        
+        $arg1 = '--f=' . $analysisItem->document->getFilePath();
+
+        $arg2 = '--analysis_item_id=' . $analysisItem->id;
+
+        $process = new Process([$python_path, $cmd_path, $arg1, $arg2]);
+        $process->run();
+        
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        $data = $process->getOutput();    
+    }
+
     public function analyseItem($analysisItemId){
         $analysisItem = AnalysisItem::find($analysisItemId);
         
-        #$this->runPlagiarismCheckerScript($analysisItem);
+        //$this->runPlagiarismCheckerScript($analysisItem);
 
         try {
             ProcessPlagiarismDetection::dispatch($analysisItem);

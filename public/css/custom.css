@@ -90,7 +90,7 @@ table.dataTable thead .sorting_desc {
 
 .btn-group-xs > .btn,
 .btn-xs {
-    padding: 1px 5px;
+    padding: 5px 5px;
     font-size: 12px;
     line-height: 1.5;
     border-radius: 3px;
@@ -129,4 +129,23 @@ table.dataTable thead .sorting_desc {
 
 .custom-select.form-control-sm {
     padding: 0.25rem 1.5rem;
+}
+
+.c-sidebar {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex: 0 0 256px;
+    flex: 0 0 256px;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -ms-flex-order: -1;
+    order: -1;
+    width: 256px;
+    padding: 0;
+    box-shadow: none;
+    color: #fff;
+    background: #100a35;
+    font-weight: bold;
+    font-size: 14px;
 }

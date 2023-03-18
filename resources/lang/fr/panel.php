@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'site_title' => 'plagiarism-detector',
+    'site_title' => app_name(), //'plagiarism-detector',
 ];

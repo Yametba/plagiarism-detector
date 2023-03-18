@@ -101,5 +101,5 @@ return [
     |
     */
 
-    'default_timeout' => 60*60,
+    'default_timeout' => 60*60*60,
 ];

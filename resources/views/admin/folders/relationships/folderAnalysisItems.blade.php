@@ -92,17 +92,19 @@
                                 @endif
                             </td>
                             <td>
-                                @can('analysis_item_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.analysis-items.show', $analysisItem->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
+                                @if(/*!empty($analysisItem->analysis_results) &&*/ $analysisItem->analysis_results != 'En cours')
+                                    @can('analysis_item_show')
+                                        <a class="btn btn-xs btn-primary" href="{{ route('admin.analysis-items.show', $analysisItem->id) }}">
+                                            {{ trans('global.view') }}
+                                        </a>
+                                    @endcan
 
-                               {{-- @can('analysis_item_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.analysis-items.edit', $analysisItem->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan--}}
+                                    {{-- @can('analysis_item_edit')
+                                        <a class="btn btn-xs btn-info" href="{{ route('admin.analysis-items.edit', $analysisItem->id) }}">
+                                            {{ trans('global.edit') }}
+                                        </a>
+                                    @endcan--}}
+                                @endif
 
                                 @can('analysis_item_delete')
                                     <form action="{{ route('admin.analysis-items.destroy', $analysisItem->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
