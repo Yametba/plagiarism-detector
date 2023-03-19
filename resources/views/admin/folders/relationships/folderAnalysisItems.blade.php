@@ -83,6 +83,8 @@
                                 @else
                                     <span style="font-weight: bolder; color: green;">
                                         Résultat disponible. Vérifier les détails avec le button voir.
+                                        <br>
+                                        Résumé Score : {{$analysisItem->getPlagiarismScore()}}
                                     </span>
                                     <br>
                                     <a class="btn btn-xs btn-success" href="{{route('admin.run-item-analyse', $analysisItem->id)}}">

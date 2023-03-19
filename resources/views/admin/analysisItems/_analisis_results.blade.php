@@ -4,6 +4,11 @@
       En Cours de traitement
     @endif
 @else
+
+  <h3>
+    Score de plagiat total : {{$analysisItem->getPlagiarismScore()}}
+  </h3>
+
   <table class="table">
       <thead>
         <tr>

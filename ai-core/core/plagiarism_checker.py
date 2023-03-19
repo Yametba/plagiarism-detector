@@ -46,7 +46,7 @@ def save_plagiarism_result_on_backend_database(analysis_results):
                                  'analysis_item_id': analysis_item_id
                                 }, 
                              headers=headers)
-    print(response.content)
+    #print(response.content)
     return response
 
 def get_file_text(file_path: str):
@@ -100,10 +100,12 @@ async def analyze_similarity_between_sentences(document1_sentences: list, docume
 
     k = 0
     loop_stop = 1.0
-    sentence_min_len = 50
+    #sentence_min_len pour éviter de prendre en compte les phrases trop courtes
+    #sentence_min_len = 50
     while loop_stop >= threshold and k < len(paraphrases):
         score, i, j = paraphrases[k]
-        if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len)) and len(sentences[i]) > sentence_min_len and len(sentences[j]) > sentence_min_len):
+        #if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len)) and len(sentences[i]) > sentence_min_len and len(sentences[j]) > sentence_min_len):
+        if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len))):
             result.append([sentences[i], sentences[j], score, document1_name, document2_name])
         k = k + 1
         loop_stop = score
@@ -124,9 +126,9 @@ def save_sentences_and_scores(save_list: list, result: list):
 def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, save_list: list) -> float:
     #score_total = 0
     #print("Save list:")
-    #print(str(len(save_list[0])))
-    #print(new_doc_nbr_pages_or_text_sentences_len)
-    #print(save_list)
+    print(str(len(save_list[0])))
+    print(new_doc_nbr_pages_or_text_sentences_len)
+    print(save_list)
     return [float(len(save_list[0]) / new_doc_nbr_pages_or_text_sentences_len), save_list[0]]
 
 async def check_plagiarism_between_newdoc_and_file(new_doc_sentences: list, database_file_path: str):

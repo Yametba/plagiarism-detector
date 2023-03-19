@@ -62,6 +62,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Settings
     Route::delete('settings/destroy', 'SettingsController@massDestroy')->name('settings.massDestroy');
     Route::resource('settings', 'SettingsController');
+    Route::get('show-app-settings', 'SettingsController@showAppSettings')->name('settings.showAppSettings');
 
     // Workspace
     Route::delete('workspaces/destroy', 'WorkspaceController@massDestroy')->name('workspaces.massDestroy');

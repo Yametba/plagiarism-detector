@@ -89,8 +89,6 @@
 
         <div class="c-body">
             <main class="c-main">
-
-
                 <div class="container-fluid">
                     @if(session('message'))
                         <div class="row mb-2">
@@ -109,10 +107,7 @@
                         </div>
                     @endif
                     @yield('content')
-
                 </div>
-
-
             </main>
             <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
                 {{ csrf_field() }}

@@ -13,6 +13,16 @@ def remove_sentences_with_footnotes_and_paraphrases(text):
     
     return new_text
 
+#Supprime les phrases courtes dans le text (Mois de 'min_word_nbr' dans le text)
+def remove_short_sentences(text, min_word_nbr=5):
+    # Divise le texte en phrases
+    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
+    # Supprime les phrases courtes
+    filtered_sentences = [s for s in sentences if len(s.split()) >= min_word_nbr]
+    # Reconstitue le texte à partir des phrases filtrées
+    filtered_text = ' '.join(filtered_sentences)
+    return filtered_text
+
 def preprocess_text(text):
     # Convertir le texte en minuscules
     #text = text.lower()
@@ -29,7 +39,8 @@ def preprocess_text(text):
     text = re.sub(r'\n', ' ', text)  # Remplacement des retours à la ligne par des espaces
     text = re.sub(r'\s+', ' ', text)  # Remplacement des espaces multiples par un seul espace
     text = re.sub(r'\x0c', '', text)  # Retrait des caractères de contrôle
-            
+    text = remove_short_sentences(text)
+    
     #text = text.replace("\n", ".")
     text = remove_sentences_with_footnotes_and_paraphrases(text)
     result = text

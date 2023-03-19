@@ -87,6 +87,18 @@
                 </ul>
             </li>
         @endcan--}}
+
+        @can('setting_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.settings.showAppSettings") }}" class="c-sidebar-nav-link {{ request()->is("admin/settings") || request()->is("admin/settings/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.setting.title') }}
+                </a>
+            </li>
+        @endcan
+
         @can('user_alert_access')
             <li class="c-sidebar-nav-item">
                 <a href="{{ route("admin.user-alerts.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/user-alerts") || request()->is("admin/user-alerts/*") ? "c-active" : "" }}">
@@ -98,16 +110,7 @@
                 </a>
             </li>
         @endcan
-        @can('setting_access')
-            <li class="c-sidebar-nav-item">
-                <a href="{{ route("admin.settings.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/settings") || request()->is("admin/settings/*") ? "c-active" : "" }}">
-                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
-                    </i>
-                    {{ trans('cruds.setting.title') }}
-                </a>
-            </li>
-        @endcan
         @can('user_management_access')
             <li class="c-sidebar-nav-dropdown {{ request()->is("admin/permissions*") ? "c-show" : "" }} {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }} {{ request()->is("admin/audit-logs*") ? "c-show" : "" }} {{ request()->is("admin/teams*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">

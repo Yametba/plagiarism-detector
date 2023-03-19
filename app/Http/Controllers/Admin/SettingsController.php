@@ -52,6 +52,22 @@ class SettingsController extends Controller
         return redirect()->route('admin.settings.index');
     }
 
+    public function showAppSettings()
+    {
+        $setting = Setting::first();
+        if ($setting == null) {
+            $setting = new Setting();
+            $setting->default_plagiarism_threshold_allowed = 20;
+            $setting->save();
+        }
+
+        abort_if(Gate::denies('setting_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $setting->load('team');
+
+        return view('admin.settings.edit', compact('setting'));
+    }
+
     public function show(Setting $setting)
     {
         abort_if(Gate::denies('setting_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
