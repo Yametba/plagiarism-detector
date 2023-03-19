@@ -46,8 +46,7 @@ def save_plagiarism_result_on_backend_database(analysis_results):
                                  'analysis_item_id': analysis_item_id
                                 }, 
                              headers=headers)
-    print(response.json())
-
+    print(response.content)
     return response
 
 def get_file_text(file_path: str):
@@ -84,7 +83,7 @@ def sent_tokenize(sentences: str) -> list:
     result = nltk.sent_tokenize(sentences)
     r = []
     if result != None:
-        r = [translator.translate_text(sentence) for sentence in result]
+        #r = [translator.translate_text(sentence) for sentence in result]
         r = [sentence for sentence in result]
     return r
 
