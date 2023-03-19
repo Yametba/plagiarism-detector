@@ -50,7 +50,10 @@ class ProcessPlagiarismDetection implements ShouldQueue
         $process->run();
         
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            $result = new ProcessFailedException($process); //new \RuntimeException($process->getErrorOutput());
+            $analysisItem->analysis_results = $result; //"Une erreure s'est produite. Veuillez uploader à nouveau votre fichier";
+            $analysisItem->save();
+            throw $result;
         }
 
         $data = $process->getOutput();

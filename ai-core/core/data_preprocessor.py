@@ -25,7 +25,12 @@ def preprocess_text(text):
     #tokens = [token for token in tokens if token not in stopwords]
     # Retourner le texte prétraité
     #result = ' '.join(tokens)
-    text = text.replace("\n", ".")
+    # Nettoyage du texte en retirant les éléments indésirables
+    text = re.sub(r'\n', ' ', text)  # Remplacement des retours à la ligne par des espaces
+    text = re.sub(r'\s+', ' ', text)  # Remplacement des espaces multiples par un seul espace
+    text = re.sub(r'\x0c', '', text)  # Retrait des caractères de contrôle
+            
+    #text = text.replace("\n", ".")
     text = remove_sentences_with_footnotes_and_paraphrases(text)
     result = text
     return result

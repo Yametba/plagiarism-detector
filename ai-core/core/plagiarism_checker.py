@@ -58,7 +58,7 @@ def get_file_text(file_path: str):
     print("Lecture du document : " + file_path + ". Nb pages: "+ str(number_of_pages) + ".")
     for page in reader.pages:
         text = text + ". " + data_preprocessor.preprocess_text(page.extract_text())
-
+    #print(text)
     return text
 
 def get_database_files_list():
@@ -84,7 +84,7 @@ def sent_tokenize(sentences: str) -> list:
     result = nltk.sent_tokenize(sentences)
     r = []
     if result != None:
-        #r = [translator.translate_text(sentence) for sentence in result]
+        r = [translator.translate_text(sentence) for sentence in result]
         r = [sentence for sentence in result]
     return r
 
@@ -205,6 +205,7 @@ def main(newFilePath, originalText, rewrittenText, analysisItemId):
     t2 = time.perf_counter()
     print(f'Temps d exécution du programme : {t2-t1:0.6f} secondes')
     
+    print(result)
     save_plagiarism_result_on_backend_database(result)
     #mailing.send_result_to_user_by_mail(result)
     return result
