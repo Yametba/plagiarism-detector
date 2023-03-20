@@ -77,6 +77,12 @@
                                         </a>
                                     @endcan
                                 @elseif($analysisItem->analysis_results == 'En cours')
+                                    @can('analysis_item_show')
+                                        <a class="btn btn-xs btn-success" href="{{route('admin.run-item-analyse', $analysisItem->id)}}">
+                                            <i class="fa-fw fas fa-play"></i>
+                                            Relancer
+                                        </a>
+                                    @endcan
                                     <span style="font-weight: bolder; color: grey;">
                                         Analyse en cours. Le résultat sera disponible bientôt.
                                     </span>

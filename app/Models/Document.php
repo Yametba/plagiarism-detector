@@ -74,6 +74,10 @@ class Document extends Model implements HasMedia
     }
 
     public function getFilePath(){
-        return $this->file->getPath();
+        $result = NULL;
+        if ($this->file != NULL) {
+            $result = $this->file->getPath();
+        }
+        return $result;
     }
 }

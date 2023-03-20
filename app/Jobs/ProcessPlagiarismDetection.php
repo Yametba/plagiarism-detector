@@ -43,13 +43,15 @@ class ProcessPlagiarismDetection implements ShouldQueue
         $cmd_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core/plagiarism_checker.py';
         
         $arg_analysis_item_id = '--analysis_item_id=' . $analysisItem->id;
+        
+        $process = NULL;
 
         if ($analysisItem->original_text == NULL || $analysisItem->rewritten_text == NULL) {
             $arg_f = '--f=' . $analysisItem->document->getFilePath();
             $process = new Process([$python_path, $cmd_path, $arg_f, $arg_analysis_item_id]);
         }else{
-            $arg_original_text = '--original_text="' . $analysisItem->original_text . '"';
-            $arg_rewritten_text = '--rewritten_text="' . $analysisItem->rewritten_text . '"';
+            $arg_original_text = '--original_text=' . $analysisItem->original_text;
+            $arg_rewritten_text = '--rewritten_text=' . $analysisItem->rewritten_text;
             $process = new Process([$python_path, $cmd_path, $arg_original_text, $arg_rewritten_text, $arg_analysis_item_id]);
         }
 

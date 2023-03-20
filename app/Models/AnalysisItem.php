@@ -75,15 +75,17 @@ class AnalysisItem extends Model
     }
 
     public function getPlagiarismScore(){
-        $val = 0;
+        $val = 0.0;
         if ($this->getAnalysisResultsArray() != NULL && $this->getAnalysisResultsArray()[0] != NULL) {
             $val = floatval($this->getAnalysisResultsArray()[0]);
         }
-        if ($val >= 1) {
-            $val = 1;
+        if ($val >= 1.0) {
+            $val = 1.0;
         }
 
-        return intval($val) * 100 . "%";
+        $val = $val * 100;
+
+        return intval($val) . "%";
     }
 
     public function getAnalysisResultsSimilarSentencesArray(){
