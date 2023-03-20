@@ -32,6 +32,29 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.document.fields.file_helper') }}</span>
             </div>
+
+            <div class="form-group">
+                <label for="original_text">Text 1</label>
+                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('original_text') ? 'is-invalid' : '' }}" type="text" name="original_text" id="original_text" value="{{ old('original_text') ?? ''}}" required></textarea>
+                @if($errors->has('original_text'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('original_text') }}
+                    </div>
+                @endif
+                {{--<span class="help-block">{{ trans('cruds.analysisItem.fields.original_text_helper') }}</span>--}}
+            </div>
+
+            <div class="form-group">
+                <label for="rewritten_text">Text 2</label>
+                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('rewritten_text') ? 'is-invalid' : '' }}" type="text" name="rewritten_text" id="rewritten_text" value="{{ old('rewritten_text') ?? '' }}" required></textarea>
+                    @if($errors->has('rewritten_text'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('rewritten_text') }}
+                    </div>
+                @endif
+                {{--<span class="help-block">{{ trans('cruds.analysisItem.fields.rewritten_text_helper') }}</span>--}}
+            </div>
+            
             <div class="form-group">
                 <label for="submitter_email">{{ trans('cruds.analysisItem.fields.submitter_email') }}</label>
                 <input class="form-control {{ $errors->has('submitter_email') ? 'is-invalid' : '' }}" type="email" name="submitter_email" id="submitter_email" value="{{ old('submitter_email') ?? $authUser->email }}" required>

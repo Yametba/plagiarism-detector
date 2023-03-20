@@ -91,7 +91,6 @@ class AnalysisItemController extends Controller
 
     public function store(StoreAnalysisItemRequest $request)
     {
-        
         //dd($request->all());
 
         $folder = Folder::find($request->folder_id);
@@ -106,6 +105,8 @@ class AnalysisItemController extends Controller
             'submitter_email'       => $request->submitter_email,
             'folder_id'             => $folder->id,
             'submitter_fullname'    => $request->submitter_fullname,
+            'original_text'         => $request->original_text,
+            'rewritten_text'        => $request->rewritten_text,
         ]);
 
         if ($request->input('file', false)) {

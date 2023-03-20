@@ -42,11 +42,17 @@ class ProcessPlagiarismDetection implements ShouldQueue
         $python_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python';
         $cmd_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core/plagiarism_checker.py';
         
-        $arg1 = '--f=' . $analysisItem->document->getFilePath();
+        $arg_analysis_item_id = '--analysis_item_id=' . $analysisItem->id;
 
-        $arg2 = '--analysis_item_id=' . $analysisItem->id;
+        if ($analysisItem->original_text == NULL || $analysisItem->rewritten_text == NULL) {
+            $arg_f = '--f=' . $analysisItem->document->getFilePath();
+            $process = new Process([$python_path, $cmd_path, $arg_f, $arg_analysis_item_id]);
+        }else{
+            $arg_original_text = '--original_text="' . $analysisItem->original_text . '"';
+            $arg_rewritten_text = '--rewritten_text="' . $analysisItem->rewritten_text . '"';
+            $process = new Process([$python_path, $cmd_path, $arg_original_text, $arg_rewritten_text, $arg_analysis_item_id]);
+        }
 
-        $process = new Process([$python_path, $cmd_path, $arg1, $arg2]);
         $process->run();
         
         if (!$process->isSuccessful()) {

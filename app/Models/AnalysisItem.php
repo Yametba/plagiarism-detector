@@ -36,6 +36,8 @@ class AnalysisItem extends Model
         'updated_at',
         'deleted_at',
         'team_id',
+        'original_text',
+        'rewritten_text',
     ];
 
     public function getLastAnalysisDateAttribute($value)
@@ -73,7 +75,10 @@ class AnalysisItem extends Model
     }
 
     public function getPlagiarismScore(){
-        $val = floatval($this->getAnalysisResultsArray()[0]);
+        $val = 0;
+        if ($this->getAnalysisResultsArray() != NULL && $this->getAnalysisResultsArray()[0] != NULL) {
+            $val = floatval($this->getAnalysisResultsArray()[0]);
+        }
         if ($val >= 1) {
             $val = 1;
         }
