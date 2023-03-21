@@ -35,7 +35,7 @@
 
             <div class="form-group">
                 <label for="original_text">Text 1</label>
-                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('original_text') ? 'is-invalid' : '' }}" type="text" name="original_text" id="original_text" value="{{ old('original_text') ?? ''}}" required></textarea>
+                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('original_text') ? 'is-invalid' : '' }}" type="text" name="original_text" id="original_text" value="{{ old('original_text') ?? ''}}"></textarea>
                 @if($errors->has('original_text'))
                     <div class="invalid-feedback">
                         {{ $errors->first('original_text') }}
@@ -46,7 +46,7 @@
 
             <div class="form-group">
                 <label for="rewritten_text">Text 2</label>
-                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('rewritten_text') ? 'is-invalid' : '' }}" type="text" name="rewritten_text" id="rewritten_text" value="{{ old('rewritten_text') ?? '' }}" required></textarea>
+                <textarea  cols="30" rows="10" class="form-control {{ $errors->has('rewritten_text') ? 'is-invalid' : '' }}" type="text" name="rewritten_text" id="rewritten_text" value="{{ old('rewritten_text') ?? '' }}"></textarea>
                     @if($errors->has('rewritten_text'))
                     <div class="invalid-feedback">
                         {{ $errors->first('rewritten_text') }}

@@ -81,11 +81,12 @@ def get_database_files_list():
 #retourne la lists des phrases dans un text sous forme de list
 def sent_tokenize(sentences: str) -> list:
     result = nltk.sent_tokenize(sentences)
-    r = []
+    s = []
     if result != None:
-        #r = [translator.translate_text(sentence) for sentence in result]
-        r = [sentence for sentence in result]
-    return r
+        #s = [translator.translate_text(sentence) for sentence in result]
+        #print(s)
+        s = [sentence for sentence in result]
+    return s
 
 #fonction d'analyse de la similarité qui retourne une list contenant les phrases qui ont un score de plagiat élevé
 async def analyze_similarity_between_sentences(document1_sentences: list, document2_sentences: list, document1_name: str, document2_name: str, threshold = 0.8) -> list:
