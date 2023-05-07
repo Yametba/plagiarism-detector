@@ -1,14 +1,17 @@
 
 import sys
-sys.path.insert(0, "/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/core")
+import os
+
+#Inserts a new path in the sys.path list of the sys module, which is used to search for imported modules in a Python program
+sys.path.insert(0, os.getcwd() + '/core')
+
+print("os.getcwd() + '/core' : " + os.getcwd() + '/core')
 
 from sentence_transformers import SentenceTransformer, util
 sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
 
 import nltk
 nltk.download('punkt')
-
-import os
 
 from PyPDF2 import PdfReader
 import numpy as np
@@ -22,7 +25,7 @@ import translator as translator
 import data_preprocessor as data_preprocessor
 import mailing as mailing
 
-APP_BASE_PATH = '/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector'
+APP_BASE_PATH = os.getcwd() + '/..'
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
 DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database'
 #DATABASE_FOLDER_PATH = AI_CORE_BASE_PATH + '/database'
@@ -56,7 +59,9 @@ def get_file_text(file_path: str):
     text = ""
     print("Lecture du document : " + file_path + ". Nb pages: "+ str(number_of_pages) + ".")
     for page in reader.pages:
-        text = text + ". " + data_preprocessor.preprocess_text(page.extract_text())
+        val = data_preprocessor.preprocess_text(page.extract_text())
+        if len(val) >= 50:
+            text = text + " " + val
     #print(text)
     return text
 

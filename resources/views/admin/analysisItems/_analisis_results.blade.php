@@ -22,14 +22,14 @@
       <tbody>
           @foreach ($analysisItem->getAnalysisResultsSimilarSentencesArray() as $index => $item)
           <tr>
-              <th scope="row">{{$index}}</th>
-              <td>{{$item[0]}}</td>
-              <td>{{$item[1]}}</td>
-              <td>{{$item[2]}}</td>
-              <td>
-                  <a href="{{ get_file_path_from_database($item[4])}}" target="_blank">{{basename($item[4])}}</a>
-              </td>
-            </tr>
+            <th scope="row">{{$index}}</th>
+            <td>{{$item[0]}}</td>
+            <td>{{$item[1]}}</td>
+            <td>{{$item[2]}}</td>
+            <td>
+                <a href="{{ get_file_path_from_database($item[4])}}" target="_blank">{{basename($item[4])}}</a>
+            </td>
+          </tr>
           @endforeach
       </tbody>
     </table>
