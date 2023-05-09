@@ -51,12 +51,6 @@ class AnalysisItemController extends Controller
     }
 
     public function runPlagiarismCheckerScript($analysisItem){
-
-        //$analysisItem = $this->analysisItem;
-
-        //$python_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python';
-        //$cmd_path = '/media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/core/plagiarism_checker.py';
-        
         $python_path = public_path() . '/..' . '/ai-core/venv/bin/python';
         $cmd_path = public_path() . '/..' .'/ai-core/core/plagiarism_checker.py';
         

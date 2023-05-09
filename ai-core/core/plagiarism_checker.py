@@ -1,17 +1,11 @@
 
 import sys
 import os
-
-#Inserts a new path in the sys.path list of the sys module, which is used to search for imported modules in a Python program
-sys.path.insert(0, os.getcwd() + '/core')
-
-print("os.getcwd() + '/core' : " + os.getcwd() + '/core')
+#from dotenv import load_dotenv
 
 from sentence_transformers import SentenceTransformer, util
-sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
 
 import nltk
-nltk.download('punkt')
 
 from PyPDF2 import PdfReader
 import numpy as np
@@ -25,11 +19,25 @@ import translator as translator
 import data_preprocessor as data_preprocessor
 import mailing as mailing
 
-APP_BASE_PATH = os.getcwd() + '/..'
+APP_BASE_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../..'
+
+#Inserts a new path in the sys.path list of the sys module, which is used to search for imported modules in a Python program
+sys.path.insert(0, APP_BASE_PATH + '/ai-core/core')
+
+sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
+
+nltk.download('punkt')
+
+#Load .env file for the main projet
+ENV_PATH = APP_BASE_PATH + '/.env'
+#load_dotenv(dotenv_path=ENV_PATH)
+APP_URL = "http://localhost:8000" #str(os.getenv("APP_URL")) #
+
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
-DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database'
-#DATABASE_FOLDER_PATH = AI_CORE_BASE_PATH + '/database'
-UPDATE_ANALYSIS_RESULTS_API = 'http://localhost:8000/api/v1/update-analysis-result'
+DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database/cache2'
+UPDATE_ANALYSIS_RESULTS_API = APP_URL + '/api/v1/update-analysis-result'
+
+#print("DATABASE_FOLDER_PATH :" + DATABASE_FOLDER_PATH)
 
 new_file_path = None
 original_text = None
@@ -37,7 +45,7 @@ rewritten_text = None
 new_doc_sentences_plagiarism_score = []
 tasks = []
 new_doc_sentences = []
-new_doc_file_path = None #DATABASE_FOLDER_PATH + '/new_docs_temp_folder/new-doc.pdf'
+new_doc_file_path = None
 analysis_item_id = None
 
 def save_plagiarism_result_on_backend_database(analysis_results):
@@ -67,13 +75,13 @@ def get_file_text(file_path: str):
 
 def get_database_files_list():
     # iterator of os.DirEntry objects
-    obj = os.scandir(DATABASE_FOLDER_PATH + '/cache2')
+    obj = os.scandir(DATABASE_FOLDER_PATH)
 
     #liste des fichiers
     files_list = []
 
     # List all files and directories
-    print("Files and Directories in '% s':" % DATABASE_FOLDER_PATH + '/cache2')
+    print("Files and Directories in '% s':" % DATABASE_FOLDER_PATH)
     for entry in obj :
         if entry.is_file() and entry.name.endswith(('.pdf','.PDF')):
             files_list.append(entry.path)
