@@ -1,4 +1,4 @@
-#!/media/owr/3817b234-5733-4cca-be5a-21256228b837/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python3
+#!/media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

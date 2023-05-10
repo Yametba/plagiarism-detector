@@ -1,7 +1,6 @@
 
 import sys
 import os
-#from dotenv import load_dotenv
 
 from sentence_transformers import SentenceTransformer, util
 
@@ -18,6 +17,7 @@ import requests
 import translator as translator
 import data_preprocessor as data_preprocessor
 import mailing as mailing
+import files_reader as files_reader
 
 APP_BASE_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../..'
 
@@ -27,6 +27,8 @@ sys.path.insert(0, APP_BASE_PATH + '/ai-core/core')
 sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
 
 nltk.download('punkt')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
 #Load .env file for the main projet
 ENV_PATH = APP_BASE_PATH + '/.env'
@@ -61,16 +63,17 @@ def save_plagiarism_result_on_backend_database(analysis_results):
     return response
 
 def get_file_text(file_path: str):
-    reader = PdfReader(str(file_path))
-    number_of_pages = len(reader.pages)
-    page = reader.pages
+    file_type = files_reader.determine_file_type(file_path)
     text = ""
-    print("Lecture du document : " + file_path + ". Nb pages: "+ str(number_of_pages) + ".")
-    for page in reader.pages:
-        val = data_preprocessor.preprocess_text(page.extract_text())
-        if len(val) >= 50:
-            text = text + " " + val
-    #print(text)
+    if file_type == 'PDF':
+        text = files_reader.read_pdf_text(file_path)
+        #print(text)
+    elif file_type == 'WORD' :
+        #
+         text = files_reader.read_word_file(file_path)
+    else:
+        text = ''
+        
     return text
 
 def get_database_files_list():
