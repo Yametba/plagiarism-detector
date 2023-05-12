@@ -94,4 +94,11 @@ class AnalysisItem extends Model
         }
         return $this->getAnalysisResultsArray()[1];
     }
+
+    public function getAnalysisResultsGroupedByDoc(){
+        if($this->getAnalysisResultsArray() == null || $this->getAnalysisResultsArray()[2] == null){
+            return [];
+        }
+        return $this->getAnalysisResultsArray()[2];
+    }
 }

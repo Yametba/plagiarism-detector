@@ -80,6 +80,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Analysis Item
     Route::delete('analysis-items/destroy', 'AnalysisItemController@massDestroy')->name('analysis-items.massDestroy');
     Route::resource('analysis-items', 'AnalysisItemController');
+    Route::get('analysis-items/{id}/details', 'AnalysisItemController@showDetails')->name('analysis-items.show-with-details');
     Route::get('add-new-analysis-item/{folder_id}', [AnalysisItemController::class, 'addNew'])->name('add-new-analysis-item');
 
     Route::get('run-item-analyse/{itemId}', [AnalysisItemController::class, 'analyseItem'])->name('run-item-analyse');

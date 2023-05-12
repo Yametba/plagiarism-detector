@@ -119,15 +119,18 @@ async def analyze_similarity_between_sentences(document1_sentences: list, docume
             result.append([sentences[i], sentences[j], score, document1_name, document2_name])
         k = k + 1
         loop_stop = score
-        
-    pr = 0
+            
+    doc1_detected_sentences = [p[0] for p in result]
+    doc1_detected_sentences = list(set(doc1_detected_sentences))
+    
+    plagiarism_score_result_about_doc = 0
     if(len(result) != 0):
-        pr = float(len(result[0]) / len(document2_sentences))
+        plagiarism_score_result_about_doc = float(len(doc1_detected_sentences) / doc1_len)
 
     doc_plagiarism_result = [
                                 document1_name, 
                                 document2_name, 
-                                pr,
+                                plagiarism_score_result_about_doc,
                                 result
                             ]
     
@@ -144,6 +147,12 @@ def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, not_groupe
     if len(not_grouped_save_list) == 0:
         return 0
     else:
+        """
+        new_doc_detected_sentences = [p[0] for p in not_grouped_save_list[0]]
+        new_doc_detected_sentences = list(set(new_doc_detected_sentences))
+    
+        return [float(len(new_doc_detected_sentences) / new_doc_nbr_pages_or_text_sentences_len), not_grouped_save_list[0], save_list_grouped_by_doc]
+        """
         return [float(len(not_grouped_save_list[0]) / new_doc_nbr_pages_or_text_sentences_len), not_grouped_save_list[0], save_list_grouped_by_doc]
 
 async def check_plagiarism_between_newdoc_and_file(new_doc_sentences: list, database_file_path: str):

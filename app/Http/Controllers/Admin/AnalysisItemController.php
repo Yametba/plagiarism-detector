@@ -146,6 +146,17 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.show', compact('analysisItem'));
     }
 
+    public function showDetails($analysisItemId)
+    {        
+        abort_if(Gate::denies('analysis_item_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $analysisItem = AnalysisItem::find($analysisItemId);
+
+        $analysisItem->load('document', 'folder', 'team');
+        
+        return view('admin.analysisItems.show_with_details', compact('analysisItem'));
+    }
+
     public function destroy(AnalysisItem $analysisItem)
     {
         abort_if(Gate::denies('analysis_item_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
