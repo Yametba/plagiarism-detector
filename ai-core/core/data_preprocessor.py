@@ -178,6 +178,14 @@ def clean_text(text):
     # Retourner le texte nettoyé
     return cleaned_text
 
+def exceeds_five_words(sentence):
+    words = sentence.split()  # Split the sentence into words using spaces as the delimiter
+    word_count = len(words)  # Count the number of words in the sentence
+    
+    if word_count > 5:
+        return True
+    else:
+        return False
 
 # Appliquer le prétraitement à un texte d'entrée
 """input_text = "This is an example of text preprocessing before submitting it to / // a plagiarism detection system."

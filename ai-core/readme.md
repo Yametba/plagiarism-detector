@@ -42,7 +42,7 @@ $ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256
 
 $ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/cache2/'UML to NoSQL'.pdf --analysis_item_id=1
 
-
+python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/'UML to NoSQL'.pdf --analysis_item_id=1
 
 $ python core/plagiarism_checker.py --original_text="I stand here today humbled by the task before us, grateful for the trust you have bestowed, mindful of the sacrifices borne by our ancestors. I thank President Bush for his service to our nation, as well as the generosity and cooperation he has shown throughout this transition. The new movie is awesome. The cat plays in the garden. The new movie is so great." --rewritten_text="I am humbled by the task at hand, appreciative of the trust you have placed in me, and conscious of the suffering endured by our forefathers as I stand here today. I am grateful to President Bush for his service to our country, as well as for his kindness and cooperation during this transition. The new movie is so great." --analysis_item_id=1
 

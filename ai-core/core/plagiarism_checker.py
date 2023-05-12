@@ -33,7 +33,7 @@ ENV_PATH = APP_BASE_PATH + '/.env'
 APP_URL = "http://localhost:8000" #str(os.getenv("APP_URL")) #
 
 AI_CORE_BASE_PATH = APP_BASE_PATH + '/ai-core'
-DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database/cache2'
+DATABASE_FOLDER_PATH = APP_BASE_PATH + '/storage/app/public/database'
 UPDATE_ANALYSIS_RESULTS_API = APP_URL + '/api/v1/update-analysis-result'
 
 #print("DATABASE_FOLDER_PATH :" + DATABASE_FOLDER_PATH)
@@ -42,6 +42,7 @@ new_file_path = None
 original_text = None
 rewritten_text = None
 new_doc_sentences_plagiarism_score = []
+new_doc_sentences_plagiarism_score_grouped_by_doc = []
 tasks = []
 new_doc_sentences = []
 new_doc_file_path = None
@@ -96,72 +97,75 @@ def sent_tokenize(sentences: str) -> list:
     result = data_preprocessor.sent_tokenize(sentences)
     s = []
     if result != None:
-        #s = [translator.translate_text(sentence) for sentence in result]
-        #print(s)
-        s = [sentence for sentence in result]
-    return s
+        s = [sentence for sentence in result if (data_preprocessor.exceeds_five_words(sentence))]
+    
+    return list(set(s))
 
 #fonction d'analyse de la similarité qui retourne une list contenant les phrases qui ont un score de plagiat élevé
 async def analyze_similarity_between_sentences(document1_sentences: list, document2_sentences: list, document1_name: str, document2_name: str, threshold = 0.8) -> list:
     result = []
 
     sentences = document1_sentences + document2_sentences
-    #print(sentences)
+    
     doc1_len = len(document1_sentences)
-     
-    #paraphrases = await asyncio.get_event_loop().run_in_executor(None, util.paraphrase_mining, sentenceTransformerModel, sentences)
+    
     paraphrases = util.paraphrase_mining(sentenceTransformerModel, sentences, show_progress_bar=False)
 
     k = 0
     loop_stop = 1.0
-    #sentence_min_len pour éviter de prendre en compte les phrases trop courtes
-    #sentence_min_len = 50
     while loop_stop >= threshold and k < len(paraphrases):
         score, i, j = paraphrases[k]
-        #if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len)) and len(sentences[i]) > sentence_min_len and len(sentences[j]) > sentence_min_len):
         if (score >= threshold and ((i < doc1_len and j >= doc1_len) or (i >= doc1_len and j < doc1_len))):
             result.append([sentences[i], sentences[j], score, document1_name, document2_name])
         k = k + 1
         loop_stop = score
-    #print(result)
-    return result
+        
+    pr = 0
+    if(len(result) != 0):
+        pr = float(len(result[0]) / len(document2_sentences))
 
-def save_sentences_and_scores(save_list: list, result: list):
-    save_list.append(result)
-    """for e in save_list :
-        if (len(save_list) <= 2):
-            print('')
-        elif (e[0] == result[0] and e[1] == result[1]):
-            if(e[2] < result[2]):
-                e[2] = result[2]
-        else:
-            save_list.append(result)"""
+    doc_plagiarism_result = [
+                                document1_name, 
+                                document2_name, 
+                                pr,
+                                result
+                            ]
+    
+    return result, doc_plagiarism_result
 
-def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, save_list: list) -> float:
-    #score_total = 0
-    #print("Save list:")
-    print(str(len(save_list[0])))
-    print(new_doc_nbr_pages_or_text_sentences_len)
-    print(save_list)
-    return [float(len(save_list[0]) / new_doc_nbr_pages_or_text_sentences_len), save_list[0]]
+def save_sentences_and_scores(result: list, grouped_result: list):
+    global new_doc_sentences_plagiarism_score
+    global new_doc_sentences_plagiarism_score_grouped_by_doc
+    if(len(result) != 0):
+        new_doc_sentences_plagiarism_score.append(result)
+        new_doc_sentences_plagiarism_score_grouped_by_doc.append(grouped_result)
+
+def get_plagiarism_rate(new_doc_nbr_pages_or_text_sentences_len: int, not_grouped_save_list: list, save_list_grouped_by_doc) -> float:
+    if len(not_grouped_save_list) == 0:
+        return 0
+    else:
+        return [float(len(not_grouped_save_list[0]) / new_doc_nbr_pages_or_text_sentences_len), not_grouped_save_list[0], save_list_grouped_by_doc]
 
 async def check_plagiarism_between_newdoc_and_file(new_doc_sentences: list, database_file_path: str):
     global new_doc_sentences_plagiarism_score
+    global new_doc_sentences_plagiarism_score_grouped_by_doc
     global new_doc_file_path
     database_file_text = get_file_text(database_file_path)
     database_file_text_sentences = sent_tokenize(database_file_text)
-    result = await analyze_similarity_between_sentences(new_doc_sentences, database_file_text_sentences, str(new_doc_file_path), str(database_file_path))
-    save_sentences_and_scores(new_doc_sentences_plagiarism_score, result)
+    result, grouped_result = await analyze_similarity_between_sentences(new_doc_sentences, database_file_text_sentences, str(new_doc_file_path), str(database_file_path))
+    save_sentences_and_scores(result, grouped_result)
 
 async def check_plagiarism_between_text(original_text: str, rewritten_text: str):
     global new_doc_sentences_plagiarism_score
+    global new_doc_sentences_plagiarism_score_grouped_by_doc
     original_text_sentences = sent_tokenize(original_text)
     rewritten_text_sentences = sent_tokenize(rewritten_text)
-    result = await analyze_similarity_between_sentences(rewritten_text_sentences, original_text_sentences, 'rewritten_text', 'original_text')
-    save_sentences_and_scores(new_doc_sentences_plagiarism_score, result)
+    result, grouped_result = await analyze_similarity_between_sentences(rewritten_text_sentences, original_text_sentences, 'rewritten_text', 'original_text')
+    save_sentences_and_scores(result, grouped_result)
 
 async def check_new_doc_plagirism_score():
     global new_doc_sentences_plagiarism_score
+    global new_doc_sentences_plagiarism_score_grouped_by_doc
     global tasks
     global new_doc_file_path
     global new_doc_sentences
@@ -170,6 +174,7 @@ async def check_new_doc_plagirism_score():
     global rewritten_text
     tasks = []
     new_doc_sentences_plagiarism_score = []
+    new_doc_sentences_plagiarism_score_grouped_by_doc = []
     database_files_path = get_database_files_list()
     new_doc_text = None
     if(rewritten_text == None):
@@ -209,12 +214,10 @@ def main(newFilePath, originalText, rewrittenText, analysisItemId):
         if (original_text == None or rewritten_text == None):
             new_doc_file_path = new_file_path
             asyncio.run(check_new_doc_plagirism_score())
-            result = get_plagiarism_rate(len(new_doc_sentences), new_doc_sentences_plagiarism_score)
-            #print(check_new_doc_plagirism_score_result)
+            result = get_plagiarism_rate(len(new_doc_sentences), new_doc_sentences_plagiarism_score, new_doc_sentences_plagiarism_score_grouped_by_doc)
         else:
             asyncio.run(check_new_doc_plagirism_score())
-            #asyncio.run(analyze_similarity_between_sentences(sent_tokenize(original_text), sent_tokenize(rewritten_text)))
-            result = get_plagiarism_rate(len(sent_tokenize(rewritten_text)), new_doc_sentences_plagiarism_score)
+            result = get_plagiarism_rate(len(sent_tokenize(rewritten_text)), new_doc_sentences_plagiarism_score, new_doc_sentences_plagiarism_score_grouped_by_doc)
         print(f"Le taux de plagiat est de {result}")
 
     t2 = time.perf_counter()
