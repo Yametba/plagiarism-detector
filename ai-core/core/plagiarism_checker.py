@@ -4,7 +4,8 @@ import os
 
 from sentence_transformers import SentenceTransformer, util
 
-import nltk
+#import nltk
+#nltk.download('punkt')
 
 from PyPDF2 import PdfReader
 import numpy as np
@@ -25,10 +26,6 @@ APP_BASE_PATH = os.path.dirname(os.path.abspath(__file__)) + '/../..'
 sys.path.insert(0, APP_BASE_PATH + '/ai-core/core')
 
 sentenceTransformerModel = SentenceTransformer('all-MiniLM-L6-v2')
-
-nltk.download('punkt')
-nltk.download('wordnet')
-nltk.download('omw-1.4')
 
 #Load .env file for the main projet
 ENV_PATH = APP_BASE_PATH + '/.env'
@@ -96,7 +93,7 @@ def get_database_files_list():
 
 #retourne la lists des phrases dans un text sous forme de list
 def sent_tokenize(sentences: str) -> list:
-    result = nltk.sent_tokenize(sentences)
+    result = data_preprocessor.sent_tokenize(sentences)
     s = []
     if result != None:
         #s = [translator.translate_text(sentence) for sentence in result]

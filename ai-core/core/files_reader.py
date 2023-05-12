@@ -41,12 +41,10 @@ def read_pdf_text(file_path):
     text = ''
     print("Lecture du document : " + file_path + ". Nb pages: "+ str(number_of_pages) + ".")
     for page in reader.pages:
-        val = data_preprocessor.preprocess_text(page.extract_text())
+        val = data_preprocessor.preprocess_text_with_regex(page.extract_text())
         text = text + " " + val
-        #if len(val) >= 50:
-        #    text = text + " " + val
             
-    print(text)
+    #print(text)
     return text
 
 def read_word_file(file_path):
@@ -60,7 +58,7 @@ def read_word_file(file_path):
     # Extraire le texte brut à partir de chaque paragraphe
     text = ''
     for paragraph in doc.paragraphs:
-        val = data_preprocessor.preprocess_text(paragraph.text)
+        val = data_preprocessor.preprocess_text_with_regex(paragraph.text)
         text += val
         #if len(val) >= 50:
         #    text += val

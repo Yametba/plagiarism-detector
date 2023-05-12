@@ -17,3 +17,4 @@ reportlab==3.6.12
 python-dotenv==1.0.0
 python-docx==0.8.11
 langdetect==1.0.9
+nltk==3.8.1
