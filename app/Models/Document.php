@@ -85,14 +85,6 @@ class Document extends Model implements HasMedia
         return $date->format('Y-m-d H:i:s');
     }
 
-    public function getFilePath(){
-        $result = NULL;
-        if ($this->file != NULL) {
-            $result = $this->file->getPath();
-        }
-        return $result;
-    }
-
     public function getOriginalFilePath(){
         $result = NULL;
         if ($this->original_file != NULL) {

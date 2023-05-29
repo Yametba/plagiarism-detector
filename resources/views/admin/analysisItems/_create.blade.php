@@ -55,11 +55,11 @@
                     <h6>Comparer le document avec:</h6>
                     <br>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="comparison_options" id="comparison_options_1" value="WITH_ALL">
+                        <input class="form-check-input" type="radio" name="comparison_option" id="comparison_option_1" value="WITH_ALL" checked>
                         <label class="form-check-label" for="inlineRadio1">Tous les documents de la base de données</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="comparison_options" id="comparison_options_2" value="WITH_SINGLE">
+                        <input class="form-check-input" type="radio" name="comparison_option" id="comparison_option_2" value="WITH_SINGLE">
                         <label class="form-check-label" for="inlineRadio2">Avec un seul document</label>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
 
 <script>
     // Récupérer les options de la checkbox radio et le bloc div
-    const comparisonOptions = document.querySelectorAll('input[name="comparison_options"]');
+    const comparisonOptions = document.querySelectorAll('input[name="comparison_option"]');
     const divBlock = document.querySelector('#rewritten_file_form_group');
 
     // Fonction pour supprimer ou ajouter le bloc div en fonction de l'option sélectionnée

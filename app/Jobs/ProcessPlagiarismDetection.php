@@ -47,7 +47,7 @@ class ProcessPlagiarismDetection implements ShouldQueue
         $process = NULL;
 
         if ($analysisItem->original_text == NULL || $analysisItem->rewritten_text == NULL) {
-            $arg_f = '--f=' . $analysisItem->document->getFilePath();
+            $arg_f = '--f=' . $analysisItem->document->getOriginalFilePath();
             $process = new Process([$python_path, $cmd_path, $arg_f, $arg_analysis_item_id]);
         }else{
             $arg_original_text = '--original_text=' . $analysisItem->original_text;

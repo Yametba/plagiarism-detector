@@ -54,7 +54,7 @@ class AnalysisItemController extends Controller
         $python_path = public_path() . '/..' . '/ai-core/venv/bin/python';
         $cmd_path = public_path() . '/..' .'/ai-core/core/plagiarism_checker.py';
         
-        $arg1 = '--f=' . $analysisItem->document->getFilePath();
+        $arg1 = '--f=' . $analysisItem->document->getOriginalFilePath();
 
         $arg2 = '--analysis_item_id=' . $analysisItem->id;
 
@@ -135,6 +135,7 @@ class AnalysisItemController extends Controller
             'submitter_fullname'    => $request->submitter_fullname,
             'original_text'         => $request->original_text,
             'rewritten_text'        => $request->rewritten_text,
+            'comparison_option'    => comparison_option_from_text_to_int($request->comparison_option)
         ]);
 
         if ($request->input('file', false)) {

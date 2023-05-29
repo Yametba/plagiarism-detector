@@ -38,6 +38,7 @@ class AnalysisItem extends Model
         'team_id',
         'original_text',
         'rewritten_text',
+        'comparison_option',
     ];
 
     public function getLastAnalysisDateAttribute($value)
@@ -100,5 +101,13 @@ class AnalysisItem extends Model
             return [];
         }
         return $this->getAnalysisResultsArray()[2];
+    }
+
+    public function isWithAllComparisonOption(){
+        return $this->comparison_option == 1;
+    }
+
+    public function isWithSingleComparisonOption(){
+        return $this->comparison_option == 2;
     }
 }

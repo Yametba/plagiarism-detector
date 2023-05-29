@@ -81,3 +81,19 @@ if (! function_exists('get_file_path_from_database')) {
         return Storage::url('database/'. basename($filename));
     }
 }
+
+
+if (! function_exists('comparison_option_from_text_to_int')) {
+    function comparison_option_from_text_to_int(?String $option){
+        $result = 1;
+        if($option == "WITH_ALL"){
+            $result = 1;
+        }else if($option == "WITH_SINGLE"){
+            $result = 2;
+        }else{
+            $result = 1;
+        }
+
+        return $result;
+    }
+}

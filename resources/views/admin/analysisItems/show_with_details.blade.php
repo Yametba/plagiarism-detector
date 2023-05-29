@@ -64,7 +64,7 @@
                         </th>
                         <td>
                             @if($analysisItem->document->file)
-                                <a href="{{ $analysisItem->document->getFilePath() }}" target="_blank">
+                                <a href="{{ $analysisItem->document->getOriginalFilePath() }}" target="_blank">
                                     {{ $analysisItem->folder->name ?? '' }}
                                 </a>
                             @endif
