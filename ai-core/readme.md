@@ -20,9 +20,8 @@ Activer l’environnement virtuel
 
 installer les dépendances déclarées par le fichier requirements.txt
 
-$ python3.7 -m venv venv
+$ python3 -m venv venv
 $ source venv/bin/activate
-$ conda deactivate
 $ pip install -r requirements.txt
 $ source /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/venv/bin/activate
 export PYTHONPATH=/media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core:$PYTHONPATH
@@ -40,7 +39,7 @@ source venv/bin/activate
 
 $ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/new_docs_temp_folder/new-doc.pdf --analysis_item_id=1
 
-$ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/cache2/'UML to NoSQL'.pdf --analysis_item_id=1
+$ python3 core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/cache2/'UML to NoSQL'.pdf --analysis_item_id=1
 
 python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/'UML to NoSQL'.pdf --analysis_item_id=1
 
