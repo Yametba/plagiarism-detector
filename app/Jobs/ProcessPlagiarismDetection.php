@@ -18,7 +18,7 @@ class ProcessPlagiarismDetection implements ShouldQueue
 
     protected AnalysisItem $analysisItem;
 
-    //public $timeout = 60*60*60*9;
+    public $timeout = 60*60*60*9;
 
     /**
      * Create a new job instance.

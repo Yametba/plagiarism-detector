@@ -117,6 +117,45 @@ class AnalysisItemController extends Controller
         return redirect()->route('admin.folders.show', $folder);
     }
 
+    public function storeNewAnalysisItem(StoreAnalysisItemRequest $request)
+    {
+        //dd($request->all());
+
+        $folder = Folder::find($request->folder_id);
+
+        $document = Document::create([
+            'title'                 => $request->submitter_email,
+            'from_workspace_id'     => $folder->workspace->id,
+        ]);
+
+        $analysisItem = AnalysisItem::create([
+            'document_id'           => $document->id,
+            'submitter_email'       => $request->submitter_email,
+            'folder_id'             => $folder->id,
+            'submitter_fullname'    => $request->submitter_fullname,
+            'original_text'         => $request->original_text,
+            'rewritten_text'        => $request->rewritten_text,
+        ]);
+
+        if ($request->input('file', false)) {
+            $document->addMedia(storage_path('tmp/uploads/' . basename($request->input('file'))))->toMediaCollection('file');
+        }
+
+        if ($request->input('original_file', false)) {
+            $document->addMedia(storage_path('tmp/uploads/' . basename($request->input('original_file'))))->toMediaCollection('original_file');
+        }
+
+        if ($request->input('rewritten_file', false)) {
+            $document->addMedia(storage_path('tmp/uploads/' . basename($request->input('rewritten_file'))))->toMediaCollection('rewritten_file');
+        }
+
+        if ($media = $request->input('ck-media', false)) {
+            Media::whereIn('id', $media)->update(['model_id' => $document->id]);
+        }
+
+        return redirect()->route('admin.folders.show', $folder);
+    }
+
     public function edit(AnalysisItem $analysisItem)
     {
         abort_if(Gate::denies('analysis_item_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -24,6 +24,8 @@ class Document extends Model implements HasMedia
 
     protected $appends = [
         'file',
+        'original_file',
+        'rewritten_file'
     ];
 
     protected $dates = [
@@ -58,6 +60,16 @@ class Document extends Model implements HasMedia
         return $this->getMedia('file')->last();
     }
 
+    public function getOriginalFileAttribute()
+    {
+        return $this->getMedia('original_file')->last();
+    }
+
+    public function getRewrittenFileAttribute()
+    {
+        return $this->getMedia('rewritten_file')->last();
+    }
+
     public function from_workspace()
     {
         return $this->belongsTo(Workspace::class, 'from_workspace_id');
@@ -77,6 +89,22 @@ class Document extends Model implements HasMedia
         $result = NULL;
         if ($this->file != NULL) {
             $result = $this->file->getPath();
+        }
+        return $result;
+    }
+
+    public function getOriginalFilePath(){
+        $result = NULL;
+        if ($this->original_file != NULL) {
+            $result = $this->original_file->getPath();
+        }
+        return $result;
+    }
+
+    public function getRewrittenFilePath(){
+        $result = NULL;
+        if ($this->rewritten_file != NULL) {
+            $result = $this->rewritten_file->getPath();
         }
         return $result;
     }
