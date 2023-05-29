@@ -149,3 +149,23 @@ table.dataTable thead .sorting_desc {
     font-weight: bold;
     font-size: 14px;
 }
+
+.dropzone {
+    min-height:50px;
+    border:2px solid rgba(0,0,0,0.3);
+    background:white;
+    padding:20px 20px
+}
+
+/* Styles pour augmenter la taille des boutons checkbox */
+.form-check-input[type="checkbox"],
+.form-check-input[type="radio"] {
+  transform: scale(2); /* Ajuster la taille selon vos besoins */
+  margin-right: 10px; /* Espacement entre les boutons et les labels */
+}
+
+/* Facultatif : styles supplémentaires pour les labels des boutons */
+.form-check-label {
+  /* font-size: 1.2rem; Taille de police pour les labels */
+  margin-left: 5px;
+}

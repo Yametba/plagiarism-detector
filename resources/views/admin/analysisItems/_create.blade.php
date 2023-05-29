@@ -38,14 +38,7 @@
             </div>
     
             <div class="col-6">
-                
-                {{--<label for="">Fichier(s) d'analyse</label>
-                <div class="form-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="original_file" name="original_file">
-                        <label class="custom-file-label" for="original_file">Choisir le fichier à analyser</label>
-                    </div>
-                </div>--}}
+
                 <div class="form-group">
                     <label for="original_file">Fichier à analyser</label>
                     <div class="needsclick dropzone {{ $errors->has('original_file') ? 'is-invalid' : '' }}" id="original_file-dropzone">
@@ -57,6 +50,7 @@
                     @endif
                     <span class="help-block">{{ trans('cruds.document.fields.file_helper') }}</span>
                 </div>
+
                 <div class="form-group">
                     <h6>Comparer le document avec:</h6>
                     <br>
@@ -69,43 +63,52 @@
                         <label class="form-check-label" for="inlineRadio2">Avec un seul document</label>
                     </div>
                 </div>
-                {{--<div class="form-group">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="rewritten_file" name="rewritten_file">
-                        <label class="custom-file-label" for="rewritten_file">Choisir le fichier de comparaison</label>
-                    </div>
-                </div>--}}
 
                 <div class="form-group">
-                    <label for="rewritten_file">Fichier de comparaison</label>
-                    <div class="needsclick dropzone {{ $errors->has('rewritten_file') ? 'is-invalid' : '' }}" id="rewritten_file-dropzone">
-                    </div>
-                    @if($errors->has('rewritten_file'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('rewritten_file') }}
+                    <div id="rewritten_file_form_group">
+                        <label for="rewritten_file">Fichier de comparaison</label>
+                        <div class="needsclick dropzone {{ $errors->has('rewritten_file') ? 'is-invalid' : '' }}" id="rewritten_file-dropzone">
                         </div>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.document.fields.file_helper') }}</span>
+                        @if($errors->has('rewritten_file'))
+                            <div class="invalid-feedback">
+                                {{ $errors->first('rewritten_file') }}
+                            </div>
+                        @endif
+                        <span class="help-block">{{ trans('cruds.document.fields.file_helper') }}</span>
+                    </div>
                 </div>
-                {{--<div class="form-group">
-                    <label for="file">{{ trans('cruds.document.fields.file') }}</label>
-                    <div class="needsclick dropzone {{ $errors->has('file') ? 'is-invalid' : '' }}" id="file-dropzone">
-                    </div>
-                    @if($errors->has('file'))
-                        <div class="invalid-feedback">
-                            {{ $errors->first('file') }}
-                        </div>
-                    @endif
-                    <span class="help-block">{{ trans('cruds.document.fields.file_helper') }}</span>
-                </div>--}}
+        
             </div>
         </div>
 
         <div class="form-group">
             <button class="btn btn-danger" type="submit">
-                Enregistrer et lancer l'annalyse
+                Enregistrer
             </button>
         </div>
     </form>
 </div>
 
+<script>
+    // Récupérer les options de la checkbox radio et le bloc div
+    const comparisonOptions = document.querySelectorAll('input[name="comparison_options"]');
+    const divBlock = document.querySelector('#rewritten_file_form_group');
+
+    // Fonction pour supprimer ou ajouter le bloc div en fonction de l'option sélectionnée
+    function toggleDivVisibility() {
+        const withSingleOption = document.querySelector('input[value="WITH_SINGLE"]:checked');
+        if (withSingleOption) {
+            divBlock.style.display = 'block'; // Afficher le bloc div
+        } else {
+            divBlock.style.display = 'none'; // Cacher le bloc div
+        }
+    }
+
+    // Ajouter un écouteur d'événement sur chaque option de la checkbox radio
+    comparisonOptions.forEach(option => {
+        option.addEventListener('change', toggleDivVisibility);
+    });
+
+    // Exécuter la fonction une fois au chargement de la page pour mettre à jour l'état initial
+    toggleDivVisibility();
+</script>
