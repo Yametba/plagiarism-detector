@@ -50,29 +50,9 @@ class AnalysisItemController extends Controller
         return view('admin.analysisItems.create', compact('folder', 'authUser'));
     }
 
-    public function runPlagiarismCheckerScript($analysisItem){
-        $python_path = public_path() . '/..' . '/ai-core/venv/bin/python';
-        $cmd_path = public_path() . '/..' .'/ai-core/core/plagiarism_checker.py';
-        
-        $arg1 = '--f=' . $analysisItem->document->getOriginalFilePath();
-
-        $arg2 = '--analysis_item_id=' . $analysisItem->id;
-
-        $process = new Process([$python_path, $cmd_path, $arg1, $arg2]);
-        $process->run();
-        
-        if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
-        }
-
-        $data = $process->getOutput();    
-    }
-
     public function analyseItem($analysisItemId){
         $analysisItem = AnalysisItem::find($analysisItemId);
         
-        //$this->runPlagiarismCheckerScript($analysisItem);
-
         try {
             ProcessPlagiarismDetection::dispatch($analysisItem);
             

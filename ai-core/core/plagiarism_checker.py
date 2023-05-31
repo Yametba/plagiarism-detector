@@ -38,7 +38,8 @@ UPDATE_ANALYSIS_RESULTS_API = APP_URL + '/api/v1/update-analysis-result'
 
 #print("DATABASE_FOLDER_PATH :" + DATABASE_FOLDER_PATH)
 
-new_file_path = None
+original_file_path = None
+rewritten_file_path = None
 original_text = None
 rewritten_text = None
 new_doc_sentences_plagiarism_score = []
@@ -75,20 +76,25 @@ def get_file_text(file_path: str):
     return text
 
 def get_database_files_list():
-    # iterator of os.DirEntry objects
-    obj = os.scandir(DATABASE_FOLDER_PATH)
-
+    global rewritten_file_path
+    
     #liste des fichiers
     files_list = []
+    
+    if rewritten_file_path == None :
+        # iterator of os.DirEntry objects
+        obj = os.scandir(DATABASE_FOLDER_PATH)
 
-    # List all files and directories
-    print("Files and Directories in '% s':" % DATABASE_FOLDER_PATH)
-    for entry in obj :
-        if entry.is_file() and entry.name.endswith(('.pdf','.PDF')):
-            files_list.append(entry.path)
+        # List all files and directories
+        print("Files and Directories in '% s':" % DATABASE_FOLDER_PATH)
+        for entry in obj :
+            if entry.is_file() and entry.name.endswith(('.pdf','.PDF')):
+                files_list.append(entry.path)
 
-    # To Close the iterator
-    obj.close()
+        # To Close the iterator
+        obj.close()
+    else:
+        files_list.append(rewritten_file_path)
 
     return files_list
 
@@ -178,7 +184,7 @@ async def check_new_doc_plagirism_score():
     global tasks
     global new_doc_file_path
     global new_doc_sentences
-    global new_file_path
+    global original_file_path
     global original_text
     global rewritten_text
     tasks = []
@@ -199,29 +205,33 @@ async def check_new_doc_plagirism_score():
 
 parser = argparse.ArgumentParser(description="Commands to check plagiarism with our engine")
 #parser.add_argument('--lang', dest='lang', type=str, help='Source Lang')
-parser.add_argument('--f', dest='new_file_path', type=str, help='Your new file path')
+#parser.add_argument('--f', dest='original_file_path', type=str, help='Your new file path')
+parser.add_argument('--original_file', dest='original_file_path', type=str, help='Original file')
+parser.add_argument('--rewritten_file', dest='rewritten_file_path', type=str, help='Rewritten file')
 parser.add_argument('--original_text', dest='original_text', type=str, help='Original text')
 parser.add_argument('--rewritten_text', dest='rewritten_text', type=str, help='Rewritten text')
 parser.add_argument('--analysis_item_id', dest='analysis_item_id', type=str, help='Analysis item identifier')
 
-def main(newFilePath, originalText, rewrittenText, analysisItemId):
+def main(originalFilePath, rewrittenFilePath, originalText, rewrittenText, analysisItemId):
     t1 = time.perf_counter()
     global new_doc_file_path
-    global new_file_path
+    global original_file_path
+    global rewritten_file_path
     global original_text
     global rewritten_text
     global analysis_item_id
-    new_file_path = newFilePath
+    original_file_path = originalFilePath
+    rewritten_file_path = rewrittenFilePath
     original_text = originalText
     rewritten_text = rewrittenText
     analysis_item_id = analysisItemId
     
-    if(new_file_path == None and original_text == None and rewritten_text == None):
+    if(original_file_path == None and original_text == None and rewritten_text == None):
         print("Veuillez ajouter le chemin vers un nouveau fichier")
     else:
         result = None
         if (original_text == None or rewritten_text == None):
-            new_doc_file_path = new_file_path
+            new_doc_file_path = original_file_path
             asyncio.run(check_new_doc_plagirism_score())
             result = get_plagiarism_rate(len(new_doc_sentences), new_doc_sentences_plagiarism_score, new_doc_sentences_plagiarism_score_grouped_by_doc)
         else:
@@ -240,4 +250,4 @@ def main(newFilePath, originalText, rewrittenText, analysisItemId):
 if __name__ == "__main__":
     t1 = time.perf_counter()
     args = parser.parse_args()
-    main(args.new_file_path, args.original_text, args.rewritten_text, args.analysis_item_id)
+    main(args.original_file_path, args.rewritten_file_path, args.original_text, args.rewritten_text, args.analysis_item_id)

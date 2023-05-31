@@ -13,8 +13,8 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Nouveau Document</th>
-          <th scope="col">Document Plagié</th>
+          <th scope="col">Document d'analyse</th>
+          <th scope="col">Document(s) de correspondance trouvé(s):</th>
           <th scope="col">Score de plagiat</th>
           <th scope="col">Source Plagiat</th>
         </tr>

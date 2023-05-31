@@ -25,6 +25,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.analysisItem.fields.document') }}
+                        </th>
+                        <td>
+                            {{ $analysisItem->document->title ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.analysisItem.fields.analysis_results') }}
                         </th>
                         <td>
@@ -68,14 +76,6 @@
                                     {{ $analysisItem->folder->name ?? '' }}
                                 </a>
                             @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.analysisItem.fields.document') }}
-                        </th>
-                        <td>
-                            {{ $analysisItem->document->title ?? '' }}
                         </td>
                     </tr>
                     <tr>

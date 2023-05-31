@@ -25,6 +25,40 @@
                     </tr>
                     <tr>
                         <th>
+                            Titre
+                        </th>
+                        <td>
+                            {{ $analysisItem->document->title ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            Fichier d'analyse
+                        </th>
+                        <td>
+                            @if($analysisItem->document->original_file)
+                                <a href="{{ $analysisItem->document->getOriginalFilePath() }}" target="_blank">
+                                    {{basename($analysisItem->document->getOriginalFilePath())}}
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    @if($analysisItem->document->rewritten_file)
+                    <tr>
+                        <th>
+                            Fichier de comparaison
+                        </th>
+                        <td>
+                            @if($analysisItem->document->rewritten_file)
+                                <a href="{{ $analysisItem->document->getRewrittenFilePath() }}" target="_blank">
+                                    {{basename($analysisItem->document->getRewrittenFilePath())}}
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endif
+                    <tr>
+                        <th>
                             {{ trans('cruds.analysisItem.fields.analysis_results') }}
                         </th>
                         <td>
@@ -68,40 +102,6 @@
                                     {{ $analysisItem->folder->name ?? '' }}
                                 </a>
                             @endif
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            Fichier d'analyse
-                        </th>
-                        <td>
-                            @if($analysisItem->document->original_file)
-                                <a href="{{ $analysisItem->document->getOriginalFilePath() }}" target="_blank">
-                                    {{basename($analysisItem->document->getOriginalFilePath())}}
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    @if($analysisItem->document->rewritten_file)
-                    <tr>
-                        <th>
-                            Fichier de comparaison
-                        </th>
-                        <td>
-                            @if($analysisItem->document->rewritten_file)
-                                <a href="{{ $analysisItem->document->getRewrittenFilePath() }}" target="_blank">
-                                    {{basename($analysisItem->document->getRewrittenFilePath())}}
-                                </a>
-                            @endif
-                        </td>
-                    </tr>
-                    @endif
-                    <tr>
-                        <th>
-                            Titre
-                        </th>
-                        <td>
-                            {{ $analysisItem->document->title ?? '' }}
                         </td>
                     </tr>
                     <tr>
