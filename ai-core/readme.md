@@ -37,7 +37,7 @@ conda deactivate
 cd ai-core
 source venv/bin/activate
 
-$ python core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/new_docs_temp_folder/new-doc.pdf --analysis_item_id=1
+$ python core/plagiarism_checker.py --original_file /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/new_docs_temp_folder/new-doc.pdf --analysis_item_id=1
 
 $ python3 core/plagiarism_checker.py --f /media/owr/3817b234-5733-4cca-be5a-21256228b8371/home/owr/www/www/yametba/plagiarism-detector/ai-core/database/cache2/'UML to NoSQL'.pdf --analysis_item_id=1
 
